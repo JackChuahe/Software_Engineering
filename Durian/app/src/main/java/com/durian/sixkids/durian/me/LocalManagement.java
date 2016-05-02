@@ -17,7 +17,7 @@ public class LocalManagement extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.localmanagement_fragment);
+        setContentView(R.layout.usermanager);
     }
 
 
