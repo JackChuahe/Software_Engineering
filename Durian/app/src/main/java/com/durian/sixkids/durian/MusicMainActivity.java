@@ -17,7 +17,7 @@ public class MusicMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
        this.supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
        // initWindow();
-        setContentView(R.layout.activity_music_main);
+        setContentView(R.layout.signup);
        getWindow().setFlags(Window.FEATURE_NO_TITLE, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
