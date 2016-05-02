@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#babbc1</color>
-    <color name="colorPrimaryDark">#d9d9dc</color>
+    <color name="colorPrimaryDark">#e4e4e4</color>
     <color name="bottomPlaybar">#efeff0</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="orangecolor">#e66112</color>
+    <color name="textdefualtcolor">#737373</color>
+    <color name="textgray">#8c8c8c</color>
 </resources>

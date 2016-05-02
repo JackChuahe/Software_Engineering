@@ -8,17 +8,159 @@
     android:clipToPadding="true"
     tools:context="com.durian.sixkids.durian.MusicMainActivity">
 
-
     <android.support.v4.view.ViewPager
-        android:background="#ffffff"
+        android:layout_below="@+id/main_activity_bar_line"
+        android:background="#edcc0c"
+        android:id="@+id/main_activity_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </android.support.v4.view.ViewPager>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimaryDark"
+        android:layout_height="45dp"
+        android:orientation="horizontal"
+        android:id="@+id/main_activity_bar">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <TextView
+            android:layout_width="wrap_content"
+            android:paddingLeft="5dp"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:paddingRight="5dp"
+            android:text="音乐库"
+            android:textColor="@color/orangecolor"
+            android:layout_toLeftOf="@+id/main_activity_title_mymusic"
+            android:layout_centerVertical="true"
+            android:textSize="15sp"
+            android:id="@+id/main_activity_title_musiclibrary"
+            android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="我的音乐"
+                android:textSize="15sp"
+                android:paddingLeft="5dp"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:paddingRight="5dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:id="@+id/main_activity_title_mymusic"
+                android:layout_centerInParent="true"
+                android:textColor="@color/textdefualtcolor"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="我的"
+                android:paddingLeft="5dp"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:paddingRight="5dp"
+                android:textSize="15sp"
+                android:layout_centerVertical="true"
+                android:textColor="@color/textdefualtcolor"
+                android:layout_toRightOf="@+id/main_activity_title_mymusic"
+                android:id="@+id/main_activity_title_me"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/main_activity_title_search_iv"
+                android:layout_width="26dp"
+                android:layout_marginRight="11dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/h_search_icon_n"
+                android:layout_alignParentRight="true"
+                android:layout_height="26dp" />
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="11dp"
+                android:src="@drawable/h_radar_logo_normal"/>
+        </RelativeLayout>
+    </LinearLayout>
 
     <LinearLayout
-        android:background="@color/bottomPlaybar"
         android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:background="#9e9b9b"
+        android:id="@+id/main_activity_bar_line"
+        android:orientation="horizontal"
+        android:layout_below="@+id/main_activity_bar">
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:layout_above="@+id/main_activity_bottom_bar"
+        android:background="#afafaf">
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/main_activity_bottom_bar"
+        android:elevation="4dp"
+        android:background="@drawable/bottom_bar_bg_ninty"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
         android:layout_alignParentBottom="true"
-        android:layout_height="60dp">
+        android:layout_height="57dp">
+        <RelativeLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:src="@drawable/nowplaying_bar_album"
+                android:id="@+id/main_activity_bottom_bar_iv"
+                android:layout_height="40dp" />
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="11dp"
+                android:id="@+id/main_activity_bottom_bar_next_btn"
+                android:src="@drawable/h_nowplaying_bar_next_n"
+                android:layout_alignParentRight="true"/>
+            <ImageView
+
+                android:layout_width="40dp"
+                android:id="@+id/main_activity_bottom_bar_play_btn"
+                android:layout_toLeftOf="@+id/main_activity_bottom_bar_next_btn"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="19dp"
+                android:src="@drawable/h_nowplaying_bar_play_n" />
+            <TextView
+                android:layout_width="141dp"
+                android:layout_marginLeft="10dp"
+                android:layout_alignTop="@+id/main_activity_bottom_bar_iv"
+                android:layout_marginTop="2dp"
+                android:ellipsize="end"
+                android:id="@+id/main_activity_bottom_bar_song_name_tv"
+                android:singleLine="true"
+                android:textSize="14sp"
+                android:textColor="#494747"
+                android:text="Eagles - Hotel California"
+
+                android:layout_toRightOf="@+id/main_activity_bottom_bar_iv"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/main_activity_bottom_bar_singer_tv"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="未知歌手"
+                android:textSize="9sp"
+                android:textColor="@color/textgray"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:layout_toRightOf="@+id/main_activity_bottom_bar_iv"
+                android:layout_below="@+id/main_activity_bottom_bar_song_name_tv"/>
+
+        </RelativeLayout>
     </LinearLayout>
 </RelativeLayout>
