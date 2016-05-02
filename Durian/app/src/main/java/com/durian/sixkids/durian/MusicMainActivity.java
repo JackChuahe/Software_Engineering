@@ -1,5 +1,6 @@
 package com.durian.sixkids.durian;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.v4.view.ViewPager;
@@ -12,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.durian.sixkids.durian.common.SetStatusBarTextColor;
+import com.durian.sixkids.durian.musicplay.MusicList;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import org.w3c.dom.Text;
@@ -35,8 +38,9 @@ public class MusicMainActivity extends AppCompatActivity implements View.OnClick
 
         super.onCreate(savedInstanceState);
        this.supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-       // initWindow();
+
         setContentView(R.layout.activity_music_main);
+        initWindow();
        getWindow().setFlags(Window.FEATURE_NO_TITLE, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         lyBottomBar = (LinearLayout)findViewById(R.id.main_activity_bottom_bar);
@@ -52,7 +56,7 @@ public class MusicMainActivity extends AppCompatActivity implements View.OnClick
         ivNext = (ImageView)findViewById(R.id.main_activity_bottom_bar_next_btn);
 
         viewPager = (ViewPager)findViewById(R.id.main_activity_viewpager);
-
+        SetStatusBarTextColor.setMiuiStatusBarDarkMode(this,true);
         initListener();
     }
 
@@ -71,9 +75,11 @@ public class MusicMainActivity extends AppCompatActivity implements View.OnClick
                 tvMe.setTextColor(getResources().getColor(R.color.textdefualtcolor));
                 break;
             case R.id.main_activity_title_mymusic:
-                tvMusicLibrary.setTextColor(getResources().getColor(R.color.textdefualtcolor));
-                tvMyMusic.setTextColor(getResources().getColor(R.color.orangecolor));
-                tvMe.setTextColor(getResources().getColor(R.color.textdefualtcolor));
+//                tvMusicLibrary.setTextColor(getResources().getColor(R.color.textdefualtcolor));
+//                tvMyMusic.setTextColor(getResources().getColor(R.color.orangecolor));
+//                tvMe.setTextColor(getResources().getColor(R.color.textdefualtcolor));
+                Intent intent = new Intent(this, MusicList.class);
+                startActivity(intent);
                 break;
             case R.id.main_activity_title_me:
                 tvMusicLibrary.setTextColor(getResources().getColor(R.color.textdefualtcolor));
@@ -91,13 +97,13 @@ public class MusicMainActivity extends AppCompatActivity implements View.OnClick
     }
 
 
-//    private void initWindow(){
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
-//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+    private void initWindow(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 //            tintManager = new SystemBarTintManager(this);
 //            tintManager.setStatusBarTintColor(Color.parseColor("#c1c1be"));
 //            tintManager.setStatusBarTintEnabled(true);
-//        }
-//    }
+        }
+    }
 }
