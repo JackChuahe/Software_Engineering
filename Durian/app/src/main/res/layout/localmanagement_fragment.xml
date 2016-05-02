@@ -22,12 +22,12 @@
             android:id="@+id/user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            >
+            android:layout_marginRight="9dp">
             <ImageView
                 android:id="@+id/user_image"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="20dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginLeft="21dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
                 android:layout_centerVertical="true"
@@ -37,7 +37,7 @@
                  android:id="@+id/username"
                  android:layout_centerVertical="true"
                  android:layout_toRightOf="@id/user_image"
-                 android:layout_marginLeft="5dp"
+                 android:layout_marginLeft="6dp"
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
                  android:textSize="15dp"
@@ -50,7 +50,7 @@
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:text="设置"
-                  android:textSize="15dp"
+                  android:textSize="13dp"
                   android:layout_toLeftOf="@+id/userarrow"
                   android:layout_marginRight="5dp"
                   android:textColor="#8C8C8C"
@@ -58,8 +58,8 @@
             <ImageView
                 android:id="@+id/userarrow"
                 android:layout_centerVertical="true"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
+                android:layout_width="13dp"
+                android:layout_height="13dp"
                 android:layout_marginRight="10dp"
                 android:layout_alignParentRight="true"
                 android:src="@mipmap/arrow_right_normal"
@@ -72,8 +72,8 @@
             android:background="#E8E8E8"
             android:layout_below="@id/user"
             android:orientation="horizontal"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             >
         </LinearLayout>
         <RelativeLayout
@@ -82,6 +82,16 @@
             android:layout_below="@id/hline1"
             android:layout_alignParentLeft="true"
             >
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:orientation="vertical"
+                android:layout_width="1dp"
+                android:layout_height="160dp"
+                android:background="#F5FFFA"
+                android:layout_marginLeft="9dp"
+                android:layout_alignParentLeft="true" />
+
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
@@ -192,8 +202,8 @@
                 android:background="#E8E8E8"
                 android:layout_below="@+id/allmusic"
                 android:orientation="horizontal"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 >
             </LinearLayout>
 
@@ -298,6 +308,16 @@
                     />
             </RelativeLayout>
 
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:orientation="vertical"
+                android:layout_width="1dp"
+                android:layout_height="160dp"
+                android:background="#F5FFFA"
+                android:layout_alignParentLeft="false"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="9dp" />
+
         </RelativeLayout>
 
 
@@ -333,8 +353,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#E8E8E8"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_below="@id/clovelinear"
                 android:orientation="horizontal" />
 
@@ -393,8 +413,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#E8E8E8"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_below="@id/loveitem1"
                 android:orientation="horizontal" />
 
@@ -451,8 +471,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#E8E8E8"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_below="@id/loveitem2"
                 android:orientation="horizontal" />
 
@@ -508,8 +528,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#E8E8E8"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_below="@id/loveitem3"
                 android:orientation="horizontal" />
 
@@ -566,8 +586,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#E8E8E8"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_below="@id/loveitem4"
                 android:orientation="horizontal" />
 
