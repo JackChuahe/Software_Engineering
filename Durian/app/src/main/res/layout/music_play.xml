@@ -33,7 +33,7 @@
             <TextView
                 android:id="@+id/music_play_song_detail"
                 android:layout_width="match_parent"
-                android:textColor="#F1F1F1"
+                android:textColor="#ded5d5"
                 android:text = "Ke.Ha | Promo Only Mainstream Radio Octor"
                 android:layout_below="@+id/music_play_songname"
                 android:paddingLeft="10dp"

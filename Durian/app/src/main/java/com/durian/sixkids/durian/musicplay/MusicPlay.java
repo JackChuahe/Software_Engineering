@@ -36,8 +36,11 @@ public class MusicPlay extends AppCompatActivity{
 
     private void initFragment(){
         LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
-        View view = inflater.inflate(R.layout.fragment_music_play_center,null);
-        views.add(view);
+        View viewCenter = inflater.inflate(R.layout.fragment_music_play_center,null);
+        View viewLyc = inflater.inflate(R.layout.music_lyc_layout,null);
+
+        views.add(viewCenter);
+        views.add(viewLyc);
         adapter = new MyViewPagerAdapter(views);
         viewPager.setAdapter(adapter);
 

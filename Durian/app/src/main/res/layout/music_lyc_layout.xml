@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<LinearLayout
+    android:id="@+id/header_line"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:background="#c1bdbd"
+    android:layout_height="0.01dp">
+</LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:background="#c1bdbd"
+        android:layout_height="0.01dp"
+        android:layout_alignParentBottom="true">
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/header_choose"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="40dp">
+        <TextView
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:textColor="#FFFFFF"
+            android:text="查看歌手"
+            android:layout_weight="1"
+            android:layout_height="match_parent" />
+        <TextView
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:textColor="#e9e7e7"
+            android:text="|"
+            android:textSize="23sp"
+            android:layout_weight="1"
+            android:layout_height="match_parent" />
+        <TextView
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:textColor="#FFFFFF"
+            android:text="查看专辑"
+            android:layout_weight="1"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/header_line_end"
+        android:layout_below="@+id/header_choose"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:background="#c1bdbd"
+        android:layout_height="0.01dp">
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/header_line_end"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:scrollbars="none"
+            android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_width="match_parent"
+                android:textColor="#c1b9b9"
+                android:text="Tik Tok"
+                android:gravity="center"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:textColor="#c1b9b9"
+                android:text="Ke . Ha"
+                android:gravity="center"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="30dp"
+                android:layout_width="match_parent"
+                android:textColor="#c1b9b9"
+                android:text="Wake up in the monring feeling like P Diddy"
+                android:gravity="center"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textStyle="bold"
+                android:layout_marginTop="12dp"
+                android:layout_width="match_parent"
+                android:textColor="#ffffff"
+                android:text="Put my glasses on, I'm out the door"
+                android:gravity="center"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="12dp"
+                android:layout_width="match_parent"
+                android:textColor="#c1b9b9"
+                android:text="I'm gonna hit this city(Let's go)"
+                android:gravity="center"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="12dp"
+                android:layout_width="match_parent"
+                android:textColor="#c1b9b9"
+                android:text="Before I leave,"
+                android:gravity="center"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="12dp"
+                android:layout_width="match_parent"
+                android:textColor="#c1b9b9"
+                android:text="Brush my teeth with a bottle of jack"
+                android:gravity="center"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="12dp"
+                android:layout_width="match_parent"
+                android:textColor="#c1b9b9"
+                android:text="Cause when I leave for the night,"
+                android:gravity="center"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="12dp"
+                android:layout_width="match_parent"
+                android:textColor="#c1b9b9"
+                android:text="I ain't coming back"
+                android:gravity="center"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="30dp"
+                android:layout_width="match_parent"
+                android:textColor="#c1b9b9"
+                android:text="I taking - pedicure on our toes,toes"
+                android:gravity="center"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="12dp"
+                android:layout_width="match_parent"
+                android:textColor="#c1b9b9"
+                android:text="Trying on all our clothes,clothes"
+                android:gravity="center"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="12dp"
+                android:layout_width="match_parent"
+                android:textColor="#c1b9b9"
+                android:text="Boys blowing up our phones,phones"
+                android:gravity="center"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="12dp"
+                android:layout_width="match_parent"
+                android:textColor="#c1b9b9"
+                android:text="Boys blowing up our phones,phones"
+                android:gravity="center"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
+</RelativeLayout>
