@@ -1,6 +1,7 @@
 package com.durian.sixkids.durian.musicplay;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,7 +29,7 @@ import java.util.List;
 /**
  * Created by JackCai on 2016/5/2.
  */
-public class MusicList extends AppCompatActivity implements View.OnClickListener{
+public class MusicList extends AppCompatActivity implements View.OnClickListener,AdapterView.OnItemClickListener{
     private ListView listView;
     private List<MusicModel> modelList;
     private MusicListAdapter adapter;
@@ -54,6 +56,7 @@ public class MusicList extends AppCompatActivity implements View.OnClickListener
 
     private void initListener(){
         backLy.setOnClickListener(this);
+        listView.setOnItemClickListener(this);
     }
     private void initData(){
        modelList = new ArrayList<MusicModel>();
@@ -140,6 +143,12 @@ public class MusicList extends AppCompatActivity implements View.OnClickListener
                 this.finish();
                 break;
         }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent intent = new Intent(this,MusicPlay.class);
+        startActivity(intent);
     }
 }
 

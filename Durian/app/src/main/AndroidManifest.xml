@@ -18,6 +18,8 @@
         <activity android:name=".musicplay.MusicList">
 
         </activity>
+        <activity android:name=".musicplay.MusicPlay">
+        </activity>
     </application>
 
 </manifest>
