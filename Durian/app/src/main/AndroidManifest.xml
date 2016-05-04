@@ -12,11 +12,7 @@
 
         </activity>
     <activity android:name=".me.LocalManagement">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
       </activity>
 
         <activity android:name=".me.ScanLocal">
@@ -24,6 +20,14 @@
         </activity>
         <activity android:name=".me.MeSetting">
 
+        </activity>
+
+        <activity android:name=".me.DownLoadLookUp">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 
