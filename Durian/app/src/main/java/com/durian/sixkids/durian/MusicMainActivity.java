@@ -19,6 +19,8 @@ import com.durian.sixkids.durian.common.MusicModel;
 import com.durian.sixkids.durian.common.SetStatusBarTextColor;
 import com.durian.sixkids.durian.musicplay.MusicList;
 import com.durian.sixkids.durian.musicplay.MusicPlay;
+import com.durian.sixkids.durian.util.ConstUtil;
+import com.durian.sixkids.durian.util.PlayService;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import org.w3c.dom.Text;
@@ -29,7 +31,6 @@ import java.util.List;
 public class MusicMainActivity extends AppCompatActivity implements View.OnClickListener ,View.OnTouchListener{
 //    private SystemBarTintManager tintManager;
 
-    private LinearLayout lyBottomBar ;
     private TextView tvMusicLibrary;
     private TextView tvMyMusic;
     private TextView tvMe;
@@ -43,6 +44,8 @@ public class MusicMainActivity extends AppCompatActivity implements View.OnClick
     private boolean isPlaying = false;
     private int playIndex = 0;
     private List<MusicModel> musics = new ArrayList<MusicModel>();
+    private final  static  String [] paths = {"/storage/emulated/0/KuwoMusic/music/Aplogize-Timbaland.mp3"};
+    private static  boolean isFirstPlaying = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -53,7 +56,6 @@ public class MusicMainActivity extends AppCompatActivity implements View.OnClick
         initWindow();
        getWindow().setFlags(Window.FEATURE_NO_TITLE, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        lyBottomBar = (LinearLayout)findViewById(R.id.main_activity_bottom_bar);
         tvMusicLibrary = (TextView)findViewById(R.id.main_activity_title_musiclibrary);
         tvMyMusic = (TextView)findViewById(R.id.main_activity_title_mymusic);
         tvMe = (TextView)findViewById(R.id.main_activity_title_me);
@@ -100,6 +102,7 @@ public class MusicMainActivity extends AppCompatActivity implements View.OnClick
         tvMusicLibrary.setOnClickListener(this);
         tvMyMusic.setOnClickListener(this);
         tvMe.setOnClickListener(this);
+        ivAlbum.setOnClickListener(this);
     }
     @Override
     public void onClick(View v) {
@@ -110,18 +113,17 @@ public class MusicMainActivity extends AppCompatActivity implements View.OnClick
                 tvMe.setTextColor(getResources().getColor(R.color.textdefualtcolor));
                 break;
             case R.id.main_activity_title_mymusic:
-//                tvMusicLibrary.setTextColor(getResources().getColor(R.color.textdefualtcolor));
-//                tvMyMusic.setTextColor(getResources().getColor(R.color.orangecolor));
-//                tvMe.setTextColor(getResources().getColor(R.color.textdefualtcolor));
                 Intent intent = new Intent(this, MusicList.class);
-                startActivity(intent);
+                intent.putExtra("isPlaying",isPlaying);
+                intent.putExtra("playIndex",playIndex);
+                startActivityForResult(intent,0);
                 break;
             case R.id.main_activity_title_me:
                 tvMusicLibrary.setTextColor(getResources().getColor(R.color.textdefualtcolor));
                 tvMyMusic.setTextColor(getResources().getColor(R.color.textdefualtcolor));
                 tvMe.setTextColor(getResources().getColor(R.color.orangecolor));
                 break;
-            case R.id.main_activity_bottom_bar:
+            case R.id.main_activity_bottom_bar_iv:
                 Intent in = new Intent(this, MusicPlay.class);
                 in.putExtra("isPlaying",isPlaying);
                 in.putExtra("playIndex",playIndex);
@@ -169,9 +171,6 @@ public class MusicMainActivity extends AppCompatActivity implements View.OnClick
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-//            tintManager = new SystemBarTintManager(this);
-//            tintManager.setStatusBarTintColor(Color.parseColor("#c1c1be"));
-//            tintManager.setStatusBarTintEnabled(true);
         }
     }
 
@@ -180,9 +179,15 @@ public class MusicMainActivity extends AppCompatActivity implements View.OnClick
         switch (v.getId()){
             case R.id.main_activity_bottom_bar_play_btn:
                 setOnPlaying(event);
+                if (isPlaying){
+                    play(ConstUtil.STATE_PLAY,false);
+                }else{
+                    play(ConstUtil.STATE_PAUSE,false);
+                }
                 break;
             case R.id.main_activity_bottom_bar_next_btn:
                 setOnNext(event);
+                play(0,true);
                 break;
             case R.id.main_activity_title_search_iv:
                 setSearch(event);
@@ -205,6 +210,10 @@ public class MusicMainActivity extends AppCompatActivity implements View.OnClick
             ivNext.setImageResource(R.drawable.h_nowplaying_bar_next_p);
         }else if(event.getAction() == MotionEvent.ACTION_UP){
             ivNext.setImageResource(R.drawable.h_nowplaying_bar_next_n);
+            isPlaying = true;
+            playIndex = (playIndex +1 )%2;
+            setPlayingStatus();
+
         }
     }
     //playing
@@ -220,8 +229,36 @@ public class MusicMainActivity extends AppCompatActivity implements View.OnClick
                 ivPlay.setImageResource(R.drawable.h_nowplaying_bar_play_n);
             }else {
                 ivPlay.setImageResource(R.drawable.h_nowplaying_bar_pause_n);
+
             }
             isPlaying  = !isPlaying;
         }
+    }
+
+    /**
+     * 设置播放
+     * @param state
+     * @param isNext
+     */
+    private void play(int state,boolean isNext){
+    if (isFirstPlaying || isNext){
+        playMusic(paths[playIndex]);
+        isFirstPlaying = false;
+    }else{
+        sendBroadCastToService(state);
+    }
+}
+
+    protected void sendBroadCastToService(int state){
+        Intent intent = new Intent();
+        intent.setAction(ConstUtil.MUSICSERVICE_ACTION);
+        intent.putExtra("control", state);
+        this.sendBroadcast(intent);
+    }
+
+    public void playMusic(String path){
+        Intent intent=new Intent(this,PlayService.class);
+        intent.putExtra("path", path);
+        this.startService(intent);
     }
 }
