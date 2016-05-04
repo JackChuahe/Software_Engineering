@@ -79,14 +79,14 @@ public class MusicMainActivity extends AppCompatActivity implements View.OnClick
         model2.setAlbum("Promo Only Mainstream Radio October");
         model2.setSinger("Ke.Ha");
         model2.setName("Tik Tok");
-        model2.setResId(R.drawable.nowplaying_bar_album);
+        model2.setResId(R.drawable.test_song_head_bg);
         musics.add(model2);
 
         MusicModel model3 = new MusicModel();
         model3.setAlbum("Uptown Funk");
         model3.setSinger("Mark Ronson");
         model3.setName("Uptown Funk");
-        model3.setResId(R.drawable.nowplaying_bar_album);
+        model3.setResId(R.drawable.updown_funk_img);
         musics.add(model3);
     }
 

@@ -43,8 +43,9 @@ public class MusicList extends AppCompatActivity implements View.OnClickListener
     private RelativeLayout rlAllHead;
     private TextView tvSongName;
     private TextView tvAlbum;
+    private ImageView ivSearch;
 
-    private boolean isPlaying = false;
+    private boolean isPlaying = true;
     private int playIndex = 0;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,6 +59,7 @@ public class MusicList extends AppCompatActivity implements View.OnClickListener
         rl = (RelativeLayout)findViewById(R.id.music_list_playing_head);
         tvAlbum = (TextView)findViewById(R.id.music_head_music_detail) ;
         tvSongName = (TextView)findViewById(R.id.music_list_head_song_name_tv);
+        ivSearch = (ImageView)findViewById(R.id.music_list_search_iv);
 
 
         rlAllHead = (RelativeLayout)findViewById(R.id.all_head);
@@ -71,6 +73,14 @@ public class MusicList extends AppCompatActivity implements View.OnClickListener
         initListener();
         initData();
         setPlayingStatus();
+        initTouchListener();
+    }
+
+    /**
+     * 添加touch监听事件
+     */
+    private void initTouchListener(){
+        ivSearch.setOnTouchListener(this);
     }
 
 
@@ -103,7 +113,7 @@ public class MusicList extends AppCompatActivity implements View.OnClickListener
         model3.setSinger("Mark Ronson");
         model3.setName("Uptown Funk");
         model3.setPlay(false);
-        model3.setHeadBgId(R.drawable.test_bg_head);
+        model3.setHeadBgId(R.drawable.updown_funk_img);
         model3.setResId(R.drawable.test_song_head_bg);
         modelList.add(model3);
 
@@ -179,7 +189,7 @@ public class MusicList extends AppCompatActivity implements View.OnClickListener
     private void entryMusicPlay(){
         Intent in = new Intent(this, MusicPlay.class);
         in.putExtra("isPlaying",isPlaying);
-        in.putExtra("playIndex",playIndex);
+        in.putExtra("playIndex",0);
         startActivityForResult(in,0);
     }
     @Override
@@ -226,10 +236,27 @@ public class MusicList extends AppCompatActivity implements View.OnClickListener
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         switch (v.getId()){
+            case R.id.music_list_search_iv:
+                touchedSearch(event);
+                break;
         }
-        return false;
+        return true;
+    }
+
+
+    /**
+     * 按了搜索按钮后
+     * @param event
+     */
+    private void touchedSearch(MotionEvent event){
+        if (event.getAction() == MotionEvent.ACTION_DOWN){
+            ivSearch.setImageResource(R.drawable.search_icon_p);
+        }else if(event.getAction() == MotionEvent.ACTION_UP){
+            ivSearch.setImageResource(R.drawable.h_search_icon_n);
+        }
     }
 }
+
 
 class MusicListAdapter extends BaseAdapter{
 
