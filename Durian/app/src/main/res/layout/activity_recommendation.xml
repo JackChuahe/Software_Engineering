@@ -1,0 +1,560 @@
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <ProgressBar
+        android:id="@+id/pro"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="160dp"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="#ffffff"
+        android:layout_height="60dp">
+        <LinearLayout
+            android:id="@+id/dian"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/border"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="32dp">
+        <ImageView
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="20dp"
+            android:src="@drawable/search_gray"
+            android:layout_width="25dp"
+            android:layout_height="25dp" />
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="9dp"
+                android:textColor="#8c8484"
+                android:textSize="12sp"
+                android:text="      歌手、歌曲名、专辑"/>
+
+
+        </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0.01dp"
+        android:background="@color/colorPrimary">
+    </LinearLayout>
+
+
+<ScrollView
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="45dp"
+    android:scrollbars="none">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <ImageView
+        android:id="@+id/head"
+        android:layout_width="match_parent"
+        android:scaleType="centerCrop"
+        android:layout_height="220dp" />
+    <LinearLayout
+        android:background="#ffffff"
+        android:id="@+id/center_linear"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+            <ImageView
+                android:src="@drawable/line"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="match_parent"
+                android:gravity="center_horizontal"
+                android:text="排行榜"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_height="match_parent"
+          >
+            <ImageView
+                android:src="@drawable/mv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="match_parent"
+                android:gravity="center_horizontal"
+                android:text="MV"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_height="match_parent">
+            <ImageView
+                android:src="@drawable/singer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="歌手"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+            <ImageView
+                android:src="@drawable/fm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:gravity="center_horizontal"
+                android:text="电台"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="15dp">
+    </LinearLayout>
+    <LinearLayout
+        android:background="#ffffff"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="300dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="40dp">
+        <TextView
+            android:paddingLeft="15dp"
+            android:text="超清金曲"
+            android:textColor="#000000"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_height="0dp">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:src="@drawable/tylor"
+                    android:scaleType="centerCrop"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    />
+                <TextView
+                    android:layout_width="100dp"
+                    android:text="Tylor Swift特辑"
+                    android:textColor="#000000"
+                    android:gravity="center_horizontal"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/zhou"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp" />
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="周杰伦特辑"
+                    android:textColor="#000000"
+
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_height="match_parent">
+            <ImageView
+                android:src="@drawable/chen"
+                android:scaleType="centerCrop"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+              />
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:textColor="#000000"
+                android:text="陈奕迅特辑"
+                 />
+
+        </LinearLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:src="@drawable/zhang"
+                    android:scaleType="centerCrop"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    />
+                <TextView
+                    android:layout_width="100dp"
+                    android:text="张国荣特辑"
+                    android:textColor="#000000"
+                    android:gravity="center_horizontal"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/china"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp" />
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="中国好声音特辑"
+                    android:textColor="#000000"
+
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:src="@drawable/mic"
+                    android:scaleType="centerCrop"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    />
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:textColor="#000000"
+                    android:text="Micheal特辑"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0.6dp"
+        android:background="#ff9a9a9a">
+
+    </LinearLayout>
+    <LinearLayout
+        android:background="#ffffff"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="40dp">
+        <TextView
+            android:paddingLeft="15dp"
+            android:text="更多歌单"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="15dp">
+    </LinearLayout>
+    <LinearLayout
+        android:background="#ffffff"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="40dp">
+        <TextView
+            android:paddingLeft="15dp"
+            android:text="猜你喜欢"
+            android:textColor="#000000"
+            android:layout_gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0.6dp"
+        android:background="#ff9a9a9a">
+
+    </LinearLayout>
+    <LinearLayout
+        android:background="#ffffff"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:padding="15dp">
+            <ImageView
+                android:src="@drawable/siren"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                android:scaleType="centerCrop"
+                android:layout_centerVertical="true"
+                android:id="@+id/editText" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="私人订制"
+
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/editText"
+                android:layout_toEndOf="@+id/editText"
+                android:layout_marginLeft="26dp"
+                android:layout_marginStart="26dp"
+                android:layout_marginTop="12dp"
+                android:id="@+id/textView1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="为你每日订制的歌单"
+                android:id="@+id/textView20"
+                android:layout_below="@+id/textView1"
+                android:layout_alignLeft="@+id/textView1"
+                android:layout_marginTop="14dp"
+                android:layout_alignStart="@+id/textView1" />
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/go"/>
+
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#ffffeaff">
+
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:padding="15dp">
+            <ImageView
+                android:id="@+id/pic2"
+                android:src="@drawable/huge"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                android:scaleType="centerCrop"
+                android:layout_centerVertical="true" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="胡歌霍建华的热门影视歌曲"
+
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/pic2"
+                android:layout_toEndOf="@+id/pic2"
+                android:layout_marginLeft="26dp"
+                android:layout_marginStart="26dp"
+                android:layout_marginTop="12dp"
+                android:id="@+id/textView3" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2015红红火火老干部们霸屏来袭"
+                android:id="@+id/textView"
+                android:layout_below="@+id/textView3"
+                android:layout_alignLeft="@+id/textView3"
+                android:layout_marginTop="14dp"
+                android:layout_alignStart="@+id/textView3" />
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/go"/>
+
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#ffffeaff">
+
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:padding="15dp">
+            <ImageView
+                android:id="@+id/pic3"
+                android:src="@drawable/gangtie"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                android:scaleType="centerCrop"
+                android:layout_centerVertical="true" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="漫威英雄主题曲合辑"
+
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/pic3"
+                android:layout_toEndOf="@+id/pic3"
+                android:layout_marginLeft="26dp"
+                android:layout_marginStart="26dp"
+                android:layout_marginTop="12dp"
+                android:id="@+id/textView4" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="漫威创作的英雄电影配乐"
+                android:id="@+id/textView21"
+                android:layout_below="@+id/textView4"
+                android:layout_alignLeft="@+id/textView4"
+                android:layout_marginTop="14dp"
+                android:layout_alignStart="@+id/textView4" />
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/go"/>
+
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#ffffeaff">
+
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:padding="15dp">
+            <ImageView
+                android:id="@+id/pic4"
+                android:src="@drawable/kobe"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                android:scaleType="centerCrop"
+                android:layout_centerVertical="true" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="球场合辑"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/pic4"
+                android:layout_toEndOf="@+id/pic4"
+                android:layout_marginLeft="26dp"
+                android:layout_marginStart="26dp"
+                android:layout_marginTop="12dp"
+                android:id="@+id/textView5" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="感受球场上的劲爆与激情吧"
+                android:layout_marginTop="14dp"
+                android:id="@+id/textView2"
+                android:layout_below="@+id/textView5"
+                android:layout_alignLeft="@+id/textView5"
+                android:layout_alignStart="@+id/textView5" />
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/go"/>
+
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#ffffeaff">
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
+</ScrollView>
+    </LinearLayout>
+</RelativeLayout>
+

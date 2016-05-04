@@ -6,6 +6,7 @@ import android.os.Build;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -16,9 +17,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.durian.sixkids.durian.common.MusicModel;
+import com.durian.sixkids.durian.common.MyViewPagerAdapter;
 import com.durian.sixkids.durian.common.SetStatusBarTextColor;
 import com.durian.sixkids.durian.musicplay.MusicList;
 import com.durian.sixkids.durian.musicplay.MusicPlay;
+import com.durian.sixkids.durian.search_recomm.MusicLibrary;
+import com.durian.sixkids.durian.search_recomm.MusicSearch;
 import com.durian.sixkids.durian.util.ConstUtil;
 import com.durian.sixkids.durian.util.PlayService;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
@@ -40,7 +44,11 @@ public class MusicMainActivity extends AppCompatActivity implements View.OnClick
     private TextView tvSinger;
     private ImageView ivPlay;
     private ImageView ivNext;
+
     private ViewPager viewPager;
+    private MyViewPagerAdapter adapter;
+    private List<View> views = new ArrayList<View>();
+
     private boolean isPlaying = false;
     private int playIndex = 0;
     private List<MusicModel> musics = new ArrayList<MusicModel>();
@@ -48,6 +56,7 @@ public class MusicMainActivity extends AppCompatActivity implements View.OnClick
     private final static int  MUSIC_NUM = 3;
     private   boolean isFirstPlaying = true;
     private int time = 0;
+    private MusicLibrary musicLibrary;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -72,10 +81,21 @@ public class MusicMainActivity extends AppCompatActivity implements View.OnClick
         viewPager = (ViewPager)findViewById(R.id.main_activity_viewpager);
         SetStatusBarTextColor.setMiuiStatusBarDarkMode(this,true);
 
+        initViewPager();
         initListener();
         initTouch();
         initModels();
         setPlayingStatus();
+    }
+
+    private  void initViewPager(){
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View mainSearchView = inflater.inflate(R.layout.activity_recommendation,null);
+        musicLibrary = new MusicLibrary(this,mainSearchView);
+        views.add(mainSearchView);
+        adapter = new MyViewPagerAdapter(views);
+        viewPager.setAdapter(adapter);
+
     }
 
     private void initModels(){
@@ -112,6 +132,7 @@ public class MusicMainActivity extends AppCompatActivity implements View.OnClick
         tvMyMusic.setOnClickListener(this);
         tvMe.setOnClickListener(this);
         ivAlbum.setOnClickListener(this);
+        ivSearchBtn.setOnClickListener(this);
     }
     @Override
     public void onClick(View v) {
@@ -145,6 +166,10 @@ public class MusicMainActivity extends AppCompatActivity implements View.OnClick
             case R.id.main_activity_bottom_bar_play_btn:
                 break;
             case R.id.main_activity_bottom_bar_next_btn:
+                break;
+            case R.id.main_activity_title_search_iv:
+                Intent intent1 =new Intent(this,MusicSearch.class);
+                startActivity(intent1);
                 break;
         }
 

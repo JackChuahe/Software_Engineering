@@ -17,11 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MusicMainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".musicplay.MusicList">
 
@@ -31,6 +27,17 @@
         <service android:name=".util.PlayService">
 
         </service>
+        <activity android:name=".search_recomm.MusicSearch">
+
+        </activity>
+        <activity android:name=".search_recomm.Guide">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>
