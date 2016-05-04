@@ -75,6 +75,9 @@ public class LocalManagement extends AppCompatActivity implements View.OnClickLi
                 }else if(id==R.id.lgsingmusic){
                     Intent intent2=new Intent(LocalManagement.this,ScanLocal.class);
                     startActivity(intent2);
+                }else if(id==R.id.lgcollmusic){
+                    Intent intent3=new Intent(LocalManagement.this,DownLoadLookUp.class);
+                    startActivity(intent3);
                 }
                 break;
         }

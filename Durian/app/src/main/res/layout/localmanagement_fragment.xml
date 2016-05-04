@@ -254,7 +254,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toEndOf="@id/collmusic_image1"
                     android:layout_marginTop="20dp"
-                    android:text="收藏的歌曲"
+                    android:text="下载歌曲"
                     android:textSize="15dp"
                     android:textColor="#323232"
                     />
@@ -265,7 +265,7 @@
                     android:layout_toRightOf="@id/collmusic_image1"
                     android:layout_below="@id/colltext1"
                     android:layout_marginTop="8dp"
-                    android:text="0首歌曲"
+                    android:text="3首歌曲"
                     android:textSize="13dp"
                     android:textColor="#8C8C8C"
                     />

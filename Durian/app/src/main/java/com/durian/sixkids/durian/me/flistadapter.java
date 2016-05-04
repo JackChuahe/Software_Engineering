@@ -75,13 +75,14 @@ public class flistadapter extends BaseAdapter {
             holder.text3.setText(list.get(position).get("text3").toString());
             holder.text4.setText(list.get(position).get("text4").toString());
 
-            holder.bar.setCricleColor(Color.RED);
+
             holder.bar.setMax(100);
-            holder.bar.setCricleProgressColor(Color.GREEN);
+
 
             holder.bar.setTextColor(R.color.org);
             holder.bar.setProgress(0);
 
+            holder.bar.setCricleProgressColor(R.color.org);
             MyDownLoadThread down = new MyDownLoadThread(holder.bar,
                     holder.text4,holder.text2);
             down.setDaemon(true);

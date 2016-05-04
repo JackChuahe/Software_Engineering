@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="5dp"
-    android:paddingBottom="5dp"
+    android:paddingTop="10dp"
+    android:layout_marginBottom="10dp"
     xmlns:android_custom="http://schemas.android.com/apk/res-auto">
     <RelativeLayout
         android:id="@+id/ladire"
@@ -61,7 +61,7 @@
         />
     <LinearLayout
         android:layout_below="@id/ladire"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="0.05dp"
         android:orientation="horizontal"

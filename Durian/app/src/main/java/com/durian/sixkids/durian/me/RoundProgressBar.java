@@ -113,7 +113,7 @@ public RoundProgressBar(Context context, AttributeSet attrs, int defStyle) {
         int radius = (int) (centre - roundWidth/2); //圆环的半径
         paint.setColor(roundColor); //设置圆环的颜色
         paint.setStyle(Style.STROKE); //设置空心
-        paint.setStrokeWidth(roundWidth); //设置圆环的宽度
+        paint.setStrokeWidth(roundWidth/4); //设置圆环的宽度
         paint.setAntiAlias(true);  //消除锯齿
         canvas.drawCircle(centre, centre, radius, paint); //画出圆环
 
@@ -140,7 +140,7 @@ public RoundProgressBar(Context context, AttributeSet attrs, int defStyle) {
          */
         //设置进度是实心还是空心
 
-        paint.setStrokeWidth(roundWidth); //设置圆环的宽度
+        paint.setStrokeWidth(roundWidth/4); //设置圆环的宽度
         paint.setColor(roundProgressColor);  //设置进度的颜色
         RectF oval = new RectF(centre - radius, centre - radius, centre
         + radius, centre + radius);  //用于定义的圆弧的形状和大小的界限

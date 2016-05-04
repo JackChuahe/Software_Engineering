@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="5dp"
-    android:paddingBottom="5dp"
+    android:paddingTop="10dp"
+    android:layout_marginBottom="10dp"
     xmlns:android_custom="http://schemas.android.com/apk/res-auto">
  <RelativeLayout
      android:id="@+id/dire"
@@ -67,8 +67,8 @@
 
     <com.durian.sixkids.durian.me.RoundProgressBar
         android:id="@+id/roundProgressBar1"
-        android:layout_width="40dip"
-        android:layout_height="40dip"
+        android:layout_width="45dip"
+        android:layout_height="45dip"
 
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
@@ -76,8 +76,8 @@
         android:layout_marginTop="5dp"
         android:layout_marginRight="10dp"
 
-        android_custom:roundColor="#D1D1D1"
-        android_custom:roundProgressColor="@android:color/black"
+        android_custom:roundColor="#ede9e9"
+        android_custom:roundProgressColor="#18d741"
         android_custom:textColor="#9A32CD"
         android_custom:textIsDisplayable="false"
         android_custom:roundWidth="10dip"
@@ -90,14 +90,14 @@
         android:layout_marginRight="20dp"
         android:layout_toLeftOf="@+id/roundProgressBar1"
         android:layout_below="@id/ditext1"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="10dp"
         android:layout_alignBottom="@id/ditext3"
-        android:textSize="8dp"
+        android:textSize="13dp"
         android:textColor="#8c8888"
         />
      <LinearLayout
-         android:layout_below="@id/dire"
-         android:layout_marginTop="5dp"
+         android:layout_below="@+id/ditext6"
+        android:layout_marginTop="14dp"
          android:layout_width="match_parent"
          android:layout_height="0.05dp"
          android:orientation="horizontal"
