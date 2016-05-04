@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -22,9 +23,11 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.durian.sixkids.durian.R;
 import com.durian.sixkids.durian.common.MusicModel;
+import com.durian.sixkids.durian.search_recomm.MusicSearch;
 import com.durian.sixkids.durian.util.ConstUtil;
 import com.durian.sixkids.durian.util.PlayService;
 
@@ -51,6 +54,7 @@ public class MusicList extends AppCompatActivity implements View.OnClickListener
     private ImageView ivHeadPlay;
     private ImageView ivHeadNext;
     private int time = 0;
+    private LinearLayout lyShare;
 
     private boolean isPlaying = true;
     private int playIndex = 0;
@@ -70,7 +74,7 @@ public class MusicList extends AppCompatActivity implements View.OnClickListener
         tvAlbum = (TextView)findViewById(R.id.music_head_music_detail) ;
         tvSongName = (TextView)findViewById(R.id.music_list_head_song_name_tv);
         ivSearch = (ImageView)findViewById(R.id.music_list_search_iv);
-
+        lyShare = (LinearLayout)findViewById(R.id.music_list_share);
 
         rlAllHead = (RelativeLayout)findViewById(R.id.all_head);
         ivHeadSongimg = (ImageView) findViewById(R.id.music_list_music_head_iv);
@@ -114,6 +118,8 @@ public class MusicList extends AppCompatActivity implements View.OnClickListener
         listView.setOnItemClickListener(this);
         ivHeadSongimg.setOnClickListener(this);
         rl.setOnClickListener(this);
+        ivSearch.setOnClickListener(this);
+        lyShare.setOnClickListener(this);
     }
     private void initData(){
        modelList = new ArrayList<MusicModel>();
@@ -207,6 +213,15 @@ public class MusicList extends AppCompatActivity implements View.OnClickListener
                 break;
             case R.id.music_list_music_head_iv:
                 entryMusicPlay();
+                break;
+            case R.id.music_list_search_iv:
+                Intent intent1 =new Intent(this,MusicSearch.class);
+                startActivity(intent1);
+                break;
+            case R.id.music_list_share:
+                Toast toast = Toast.makeText(this,"歌曲分享成功！分享就是快乐！",Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER,0,0);
+                toast.show();
                 break;
         }
     }

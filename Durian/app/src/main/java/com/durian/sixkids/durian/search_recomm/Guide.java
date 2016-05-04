@@ -19,14 +19,16 @@ import java.util.TimerTask;
  * Created by SEELE on 2016/5/4.
  */
 public class Guide extends Activity {
-    private SystemBarTintManager tintManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        initWindow();
-        setContentView(R.layout.guide);
 
+
+        setContentView(R.layout.guide);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        initWindow();
         // ��������һҳ������ͣ1.5s����ת����һ��activity
         final Intent localIntent = new Intent(Guide.this, MusicMainActivity.class);
         Timer timer = new Timer();
@@ -43,9 +45,6 @@ public class Guide extends Activity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-            tintManager = new SystemBarTintManager(this);
-            tintManager.setStatusBarTintColor(Color.parseColor("#efeff0"));
-            tintManager.setStatusBarTintEnabled(true);
         }
     }
 }
