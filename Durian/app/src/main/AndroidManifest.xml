@@ -11,18 +11,20 @@
         <activity android:name=".MusicMainActivity">
 
         </activity>
-<activity android:name=".me.LocalManagement">
+    <activity android:name=".me.LocalManagement">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
 
-</activity>
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+      </activity>
 
         <activity android:name=".me.ScanLocal">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
+        <activity android:name=".me.MeSetting">
 
+        </activity>
     </application>
 
 </manifest>

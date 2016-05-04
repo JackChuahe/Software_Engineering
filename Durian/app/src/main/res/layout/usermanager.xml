@@ -2,31 +2,28 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <LinearLayout
+    <RelativeLayout
         android:background="#EEF0EF"
-        android:orientation="horizontal"
+
         android:id="@+id/umtitle"
         android:layout_width="match_parent"
         android:layout_height="60dp">
-
         <ImageView
-            android:layout_weight="1"
-            android:id="@+id/umssbtn"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginBottom="5dp"
-            android:layout_width="15dp"
-            android:layout_height="40dp"
-            android:background="#EEF0EF"
-            android:src="@mipmap/sm1"
+            android:id="@+id/umreturn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="29dp"
+            android:layout_marginLeft="15dp"
+            android:src="@mipmap/umreturn"
             />
+
         <TextView
             android:gravity="center"
             android:layout_gravity="center_vertical"
             android:layout_weight="8"
             android:id="@+id/ummaintext"
-            android:layout_marginBottom="3dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="25dp"
+            android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#636564"
@@ -34,7 +31,7 @@
             android:textSize="22dp"
             android:text="我的小米"
             />
-        <ImageView
+        ImageView
             android:layout_weight="1"
             android:id="@+id/umgiftbtn"
             android:layout_marginTop="10dp"
@@ -44,7 +41,7 @@
             android:layout_height="40dp"
             android:src="@mipmap/gift1"
             />
-    </LinearLayout>
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/usermanager"
@@ -58,8 +55,8 @@
             android:layout_marginTop="50dp"
             android:scaleType="centerCrop"
             android:layout_centerHorizontal="true"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
             android:src="@mipmap/biz_navigation_tab_pc_selected"
             />
         <TextView
@@ -71,14 +68,16 @@
             android:text="用户"
             android:textStyle="bold"
             android:layout_below="@id/umicon"
-            android:textSize="20dp"
+            android:textSize="18dp"
             android:textColor="#3B3F40"
 
 
             />
         <ImageView
             android:id="@+id/umlvicon"
-            android:layout_width="30dp"
+            android:layout_width="25dp"
+
+            android:scaleType="fitCenter"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/umusertext"
             android:src="@mipmap/vipstar"
@@ -136,7 +135,7 @@
             android:layout_toRightOf="@id/umlv1"
             android:text="等级"
             android:layout_marginLeft="10dp"
-            android:textSize="18dp"
+            android:textSize="15dp"
             android:textColor="#3B3F40"
 
             android:layout_below="@id/umline1"
@@ -162,7 +161,7 @@
             android:layout_toLeftOf="@id/umimageView1"
             android:text="查看等级特权"
             android:layout_below="@id/umline1"
-            android:textSize="15dp"
+            android:textSize="12dp"
             android:textColor="#9F9F9F"
             android:textStyle="bold"
             />
@@ -188,7 +187,7 @@
             android:layout_toRightOf="@id/umlv1"
             android:text="任务"
             android:layout_marginLeft="10dp"
-            android:textSize="18dp"
+            android:textSize="15dp"
             android:textColor="#3B3F40"
 
             android:layout_below="@id/umlv1"
@@ -214,7 +213,7 @@
             android:layout_toLeftOf="@id/umimageView2"
             android:text="开始今日任务"
             android:layout_below="@id/umlv1"
-            android:textSize="15dp"
+            android:textSize="12dp"
             android:textColor="#9F9F9F"
             android:textStyle="bold"
             />

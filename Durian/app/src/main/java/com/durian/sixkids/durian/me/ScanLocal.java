@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -17,6 +18,9 @@ import com.durian.sixkids.durian.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
+import static com.durian.sixkids.durian.R.color.btn_down;
 
 
 /**
@@ -31,6 +35,7 @@ public class ScanLocal extends Activity implements View.OnClickListener{
     private Button btn;
     private TextView left;
     private TextView Right;
+    private ImageView screturn;
     private boolean flag=false;
     private Animation animation;
     private List<String> songPaths;
@@ -103,7 +108,7 @@ public class ScanLocal extends Activity implements View.OnClickListener{
                     int k=((Integer)msg.obj);
                     left.setText("已经扫描到");
                     songNumber.setText(String.valueOf(k));
-                    handler.postDelayed(songN,100);
+                    handler.postDelayed(songN,300);
                     if(k==15){
                         left.setText("扫描到");
                         songNumber.setText(String.valueOf(k));
@@ -125,35 +130,25 @@ public class ScanLocal extends Activity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         // requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.scanmusic);
+        Random ran=new Random();
         songPaths=new ArrayList<String>();
-        songPaths.add("/mnt/sdcard/defrde00890");
-        songPaths.add("/mnt/sdcard/de3wr390");
-        songPaths.add("/mnt/sdcard/frfrgr00890");
-        songPaths.add("/mnt/sdcard/cdrfrgexs90");
-        songPaths.add("/mnt/sdcard/sdffde00890");
-        songPaths.add("/mnt/sdcard/fdvrre00890");
-        songPaths.add("/mnt/sdcard/gvvrvre00890");
-        songPaths.add("/mnt/sdcard/ddetgt890");
-        songPaths.add("/mnt/sdcard/nvfhfrsdf");
-        songPaths.add("/mnt/sdcard/defrfrcew0");
-        songPaths.add("/mnt/sdcard/gvvrvre00890");
-        songPaths.add("/mnt/sdcard/ddetgt890");
-        songPaths.add("/mnt/sdcard/nvfhfrsdf");
-        songPaths.add("/mnt/sdcard/defrfrcew0");
-        songPaths.add("/mnt/sdcard/defrde00890");
-        songPaths.add("/mnt/sdcard/de3wr390");
-        songPaths.add("/mnt/sdcard/frfrgr00890");
-        songPaths.add("/mnt/sdcard/cdrfrgexs90");
-        songPaths.add("/mnt/sdcard/sdffde00890");
-        songPaths.add("/mnt/sdcard/fdvrre00890");
-        songPaths.add("/mnt/sdcard/gvvrvre00890");
-        songPaths.add("/mnt/sdcard/ddetgt890");
-        songPaths.add("/mnt/sdcard/nvfhfrsdf");
-        songPaths.add("/mnt/sdcard/defrfrcew0");
-        songPaths.add("/mnt/sdcard/gvvrvre00890");
-        songPaths.add("/mnt/sdcard/ddetgt890");
-        songPaths.add("/mnt/sdcard/nvfhfrsdf");
-        songPaths.add("/mnt/sdcard/defrfrcew0");
+        String a="/mnt/sdcard/";
+        for(int i=0;i<30;i++){
+            for(int j=0;j<ran.nextInt(7)+10;j++){
+                char h;
+                int m=ran.nextInt(2);
+                if(m==0){
+                    h=(char)(ran.nextInt(10)+(int)'0');
+                }else{
+                    h=(char)(ran.nextInt(26)+(int)'a');
+                }
+                a=a+String.valueOf(h);
+            }
+            songPaths.add(a);
+            a="/mnt/sdcard/";
+        }
+
+
 
         Right=(TextView)this.findViewById(R.id.textright);
         left=(TextView)this.findViewById(R.id.textleft);
@@ -169,11 +164,13 @@ public class ScanLocal extends Activity implements View.OnClickListener{
         pathTitle=(TextView)this.findViewById(R.id.songpath);
         pathTitle.setVisibility(View.INVISIBLE);
 
-
+        screturn=(ImageView)this.findViewById(R.id.screturn);
         image=(ImageView)this.findViewById(R.id.scbak1);
         btn=(Button)this.findViewById(R.id.btn);
 
+        screturn.setOnClickListener(this);
         btn.setOnClickListener(this);
+       // btn.setOnTouchListener(this);
     }
     @Override
     public void onClick(View v) {
@@ -210,7 +207,10 @@ public class ScanLocal extends Activity implements View.OnClickListener{
                 }
 
                 break;
-
+            case R.id.screturn:this.finish();
+                break;
         }
     }
+
+
 }

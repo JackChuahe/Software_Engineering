@@ -19,7 +19,7 @@
         android:orientation="vertical">
 
         <RelativeLayout
-            android:id="@+id/user"
+            android:id="@+id/lguser"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="9dp">
@@ -70,7 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#E8E8E8"
-            android:layout_below="@id/user"
+            android:layout_below="@id/lguser"
             android:orientation="horizontal"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
@@ -93,7 +93,13 @@
                 android:layout_alignParentLeft="true" />
 
             <RelativeLayout
-                android:layout_width="wrap_content"
+                android:id="@+id/lglocalmusic"
+                android:layout_width="match_parent"
+                android:layout_toRightOf="@id/linearLayout"
+                android:layout_marginLeft="1dp"
+                android:layout_toLeftOf="@+id/sline1"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
                 android:layout_height="wrap_content">
             <ImageView
                 android:id="@+id/localmusic_image1"
@@ -149,9 +155,13 @@
 
 
             <RelativeLayout
-                android:id="@+id/allmusic"
+                android:id="@+id/lgallmusic"
                 android:layout_toRightOf="@id/sline1"
-                android:layout_width="wrap_content"
+                android:layout_toLeftOf="@+id/linearLayout2"
+
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <ImageView
                     android:id="@+id/allmusic_image1"
@@ -200,7 +210,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#E8E8E8"
-                android:layout_below="@+id/allmusic"
+                android:layout_below="@+id/lgallmusic"
                 android:orientation="horizontal"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
@@ -210,9 +220,13 @@
 
 
             <RelativeLayout
-                android:id="@+id/collmusic"
+                android:id="@+id/lgcollmusic"
                 android:layout_below="@id/hline2"
-                android:layout_width="wrap_content"
+                android:layout_width="190dp"
+                android:layout_toRightOf="@id/linearLayout"
+                android:layout_toLeftOf="@id/sline1"
+                android:layout_marginRight="1dp"
+                android:layout_marginLeft="1dp"
                 android:layout_height="wrap_content">
                 <ImageView
                     android:id="@+id/collmusic_image1"
@@ -261,9 +275,13 @@
 
             <RelativeLayout
                 android:layout_below="@id/hline2"
-                android:id="@+id/singmusic"
+                android:id="@+id/lgsingmusic"
+                android:layout_marginLeft="1dp"
+                android:layout_marginTop="1dp"
                 android:layout_toRightOf="@id/sline1"
-                android:layout_width="wrap_content"
+                android:layout_marginRight="1dp"
+                android:layout_toLeftOf="@id/linearLayout2"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <ImageView
                     android:id="@+id/singmusic_image1"
@@ -291,7 +309,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toEndOf="@id/singmusic_image1"
                     android:layout_marginTop="20dp"
-                    android:text="关注的歌手"
+                    android:text="扫描歌曲"
                     android:textSize="15dp"
                     android:textColor="#323232"
                     />
@@ -302,7 +320,7 @@
                     android:layout_toRightOf="@id/singmusic_image1"
                     android:layout_below="@id/singtext1"
                     android:layout_marginTop="8dp"
-                    android:text="0位"
+                    android:text="15首歌曲"
                     android:textSize="13dp"
                     android:textColor="#8C8C8C"
                     />
@@ -317,6 +335,17 @@
                 android:layout_alignParentLeft="false"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="9dp" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#F5FFFA"
+                android:layout_below="@+id/lgcollmusic"
+                android:orientation="horizontal"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp" />
 
         </RelativeLayout>
 
@@ -602,17 +631,17 @@
                 android:id="@+id/addsong"
                 android:layout_below="@id/hline7"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="60dp"
                 android:orientation="vertical"
                 >
                 <TextView
                     android:id="@+id/addsongBtn"
 
                     android:layout_gravity="center"
-                    android:layout_marginTop="25dp"
+                    android:layout_marginTop="20dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="25dp"
+                    android:textSize="15dp"
                     android:textColor="#494949"
                     android:text="添加歌单"
                     />
