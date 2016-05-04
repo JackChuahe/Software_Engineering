@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -18,6 +19,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.durian.sixkids.durian.R;
@@ -29,13 +31,21 @@ import java.util.List;
 /**
  * Created by JackCai on 2016/5/2.
  */
-public class MusicList extends AppCompatActivity implements View.OnClickListener,AdapterView.OnItemClickListener{
+public class MusicList extends AppCompatActivity implements View.OnClickListener,AdapterView.OnItemClickListener ,View.OnTouchListener{
     private ListView listView;
     private List<MusicModel> modelList;
     private MusicListAdapter adapter;
     private LinearLayout backLy;
     private ImageView ivWave;
     private AnimationDrawable animation ;
+    private RelativeLayout rl;
+    private ImageView ivHeadSongimg;
+    private RelativeLayout rlAllHead;
+    private TextView tvSongName;
+    private TextView tvAlbum;
+
+    private boolean isPlaying = false;
+    private int playIndex = 0;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,18 +55,29 @@ public class MusicList extends AppCompatActivity implements View.OnClickListener
         listView = (ListView)findViewById(R.id.music_list_view);
         backLy = (LinearLayout)findViewById(R.id.music_list_back_ly);
         ivWave = (ImageView)findViewById(R.id.music_play_wave);
+        rl = (RelativeLayout)findViewById(R.id.music_list_playing_head);
+        tvAlbum = (TextView)findViewById(R.id.music_head_music_detail) ;
+        tvSongName = (TextView)findViewById(R.id.music_list_head_song_name_tv);
+
+
+        rlAllHead = (RelativeLayout)findViewById(R.id.all_head);
+        ivHeadSongimg = (ImageView) findViewById(R.id.music_list_music_head_iv);
+
         ivWave.setImageResource(R.drawable.animation);
         animation = (AnimationDrawable)ivWave.getDrawable();
         animation.start();
+
         initWindow();
         initListener();
         initData();
+        setPlayingStatus();
     }
 
 
     private void initListener(){
         backLy.setOnClickListener(this);
         listView.setOnItemClickListener(this);
+        rl.setOnClickListener(this);
     }
     private void initData(){
        modelList = new ArrayList<MusicModel>();
@@ -73,6 +94,8 @@ public class MusicList extends AppCompatActivity implements View.OnClickListener
         model2.setSinger("Ke.Ha");
         model2.setName("Tik Tok");
         model2.setPlay(true);
+        model2.setHeadBgId(R.drawable.test_bg_head);
+        model2.setResId(R.drawable.test_song_head_bg);
         modelList.add(model2);
 
         MusicModel model3 = new MusicModel();
@@ -80,6 +103,8 @@ public class MusicList extends AppCompatActivity implements View.OnClickListener
         model3.setSinger("Mark Ronson");
         model3.setName("Uptown Funk");
         model3.setPlay(false);
+        model3.setHeadBgId(R.drawable.test_bg_head);
+        model3.setResId(R.drawable.test_song_head_bg);
         modelList.add(model3);
 
         MusicModel model4 = new MusicModel();
@@ -142,13 +167,67 @@ public class MusicList extends AppCompatActivity implements View.OnClickListener
             case R.id.music_list_back_ly:
                 this.finish();
                 break;
+            case R.id.music_list_playing_head:
+                entryMusicPlay();
+                break;
+        }
+    }
+
+    /**
+     * 进入到下一个界面
+     */
+    private void entryMusicPlay(){
+        Intent in = new Intent(this, MusicPlay.class);
+        in.putExtra("isPlaying",isPlaying);
+        in.putExtra("playIndex",playIndex);
+        startActivityForResult(in,0);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (data == null)return;
+        super.onActivityResult(requestCode, resultCode, data);
+        isPlaying = data.getBooleanExtra("isPlaying",false);
+        playIndex = data.getIntExtra("playIndex",0);
+        setPlayingStatus();
+    }
+
+    void setPlayingStatus(){
+        MusicModel model;
+        if (playIndex == 0){
+            model = modelList.get(1);
+            model.setPlay(true);
+            modelList.get(2).setPlay(false);
+            rlAllHead.setBackgroundResource(model.getHeadBgId());
+            ivHeadSongimg.setImageResource(model.getResId());
+            tvSongName.setText(model.getSinger()+" - "+model.getName());
+            tvAlbum.setText(model.getAlbum());
+        }else{
+            model = modelList.get(2);
+            model.setPlay(true);
+            modelList.get(1).setPlay(false);
+            rlAllHead.setBackgroundResource(model.getHeadBgId());
+            ivHeadSongimg.setImageResource(model.getResId());
+            tvSongName.setText(model.getSinger()+" - "+model.getName());
+            tvAlbum.setText(model.getAlbum());
         }
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent intent = new Intent(this,MusicPlay.class);
-        startActivity(intent);
+        if (position == 1){
+            playIndex = 0;
+
+        }else if(position == 2){
+            playIndex = 1;
+        }
+        entryMusicPlay();
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        switch (v.getId()){
+        }
+        return false;
     }
 }
 

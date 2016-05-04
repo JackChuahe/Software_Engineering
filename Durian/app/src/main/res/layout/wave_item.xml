@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:paddingRight="3dp"
+    android:paddingLeft="3dp"
+    android:layout_height="wrap_content">
+<ImageView
+    android:id="@+id/wave_img_item"
+    android:layout_width="6.5dp"
+    android:layout_height="wrap_content" />
+</RelativeLayout>

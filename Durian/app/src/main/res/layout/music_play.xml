@@ -120,7 +120,7 @@
                 <LinearLayout
                     android:layout_centerVertical="true"
                     android:layout_width="match_parent"
-                    android:background="#d9cece"
+                    android:background="#b3a7a7"
                     android:layout_height="1dp"></LinearLayout>
                 <LinearLayout
                     android:layout_centerVertical="true"
