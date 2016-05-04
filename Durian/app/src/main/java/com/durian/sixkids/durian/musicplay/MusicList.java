@@ -3,7 +3,6 @@ package com.durian.sixkids.durian.musicplay;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
-import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,7 +15,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -27,6 +25,8 @@ import android.widget.TextView;
 
 import com.durian.sixkids.durian.R;
 import com.durian.sixkids.durian.common.MusicModel;
+import com.durian.sixkids.durian.util.ConstUtil;
+import com.durian.sixkids.durian.util.PlayService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,9 +50,13 @@ public class MusicList extends AppCompatActivity implements View.OnClickListener
 
     private ImageView ivHeadPlay;
     private ImageView ivHeadNext;
+    private int time = 0;
 
     private boolean isPlaying = true;
     private int playIndex = 0;
+    private boolean isFirstPlaying = true;
+    private final  static  String [] paths = {"/storage/emulated/0/KuwoMusic/music/TiK ToK (Live).mp3","/storage/emulated/0/KuwoMusic/music/Uptown Funk.mp3","/storage/emulated/0/KuwoMusic/music/You Are Beautiful.mp3"};
+    private final static int  MUSIC_NUM = 3;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +96,8 @@ public class MusicList extends AppCompatActivity implements View.OnClickListener
         Intent intent = getIntent();
         isPlaying = intent.getBooleanExtra("isPlaying",true);
         playIndex = intent.getIntExtra("playIndex",0);
+        isFirstPlaying = intent.getBooleanExtra("isFirstPlaying",true);
+        time = intent.getIntExtra("time",time);
     }
     /**
      * 添加touch监听事件
@@ -125,7 +131,7 @@ public class MusicList extends AppCompatActivity implements View.OnClickListener
         model2.setName("Tik Tok");
         model2.setPlay(true);
         model2.setHeadBgId(R.drawable.test_bg_head);
-        model2.setResId(R.drawable.test_song_head_bg);
+        model2.setResId(R.drawable.tktk_img);
         modelList.add(model2);
 
         MusicModel model3 = new MusicModel();
@@ -138,10 +144,12 @@ public class MusicList extends AppCompatActivity implements View.OnClickListener
         modelList.add(model3);
 
         MusicModel model4 = new MusicModel();
-        model4.setAlbum("小飞行");
-        model4.setSinger("棉花糖");
-        model4.setName("陪你到世界的终结");
+        model4.setAlbum("Bigger");
+        model4.setSinger("James Blunt");
+        model4.setName("You Are Beautiful");
         model4.setPlay(false);
+        model4.setHeadBgId(R.drawable.yrbtf_head_bg);
+        model4.setResId(R.drawable.yrbf_img);
         modelList.add(model4);
 
         MusicModel model5 = new MusicModel();
@@ -213,8 +221,10 @@ public class MusicList extends AppCompatActivity implements View.OnClickListener
 
     private void keyBack(){
         Intent intent = new Intent();
-        intent.putExtra("isPlaying",true);
+        intent.putExtra("isPlaying",isPlaying);
         intent.putExtra("playIndex",playIndex);
+        intent.putExtra("isFirstPlaying",isFirstPlaying);
+        intent.putExtra("time",time);
         setResult(1,intent);
         finish();
     }
@@ -226,6 +236,8 @@ public class MusicList extends AppCompatActivity implements View.OnClickListener
         Intent in = new Intent(this, MusicPlay.class);
         in.putExtra("isPlaying",isPlaying);
         in.putExtra("playIndex",playIndex);
+        in.putExtra("isFirstPlaying",isFirstPlaying);
+        in.putExtra("time",time);
         startActivityForResult(in,0);
     }
     @Override
@@ -234,6 +246,8 @@ public class MusicList extends AppCompatActivity implements View.OnClickListener
         super.onActivityResult(requestCode, resultCode, data);
         isPlaying = data.getBooleanExtra("isPlaying",false);
         playIndex = data.getIntExtra("playIndex",0);
+        isFirstPlaying = data.getBooleanExtra("isFirstPlaying",true);
+        time = data.getIntExtra("time",time);
         setPlayingStatus();
     }
 
@@ -242,23 +256,16 @@ public class MusicList extends AppCompatActivity implements View.OnClickListener
      */
     void setPlayingStatus(){
         MusicModel model;
-        if (playIndex == 0){
-            model = modelList.get(1);
-            model.setPlay(true);
-            modelList.get(2).setPlay(false);
-
-            ivHeadSongimg.setImageResource(model.getResId());
-            tvSongName.setText(model.getSinger()+" - "+model.getName());
-            tvAlbum.setText(model.getAlbum());
-        }else{
-            model = modelList.get(2);
-            model.setPlay(true);
-            modelList.get(1).setPlay(false);
-
-            ivHeadSongimg.setImageResource(model.getResId());
-            tvSongName.setText(model.getSinger()+" - "+model.getName());
-            tvAlbum.setText(model.getAlbum());
+        model = modelList.get(playIndex+1);
+        model.setPlay(true);
+        ivHeadSongimg.setImageResource(model.getResId());
+        tvSongName.setText(model.getSinger()+" - "+model.getName());
+        tvAlbum.setText(model.getAlbum());
+        for(int i = 1; i <= MUSIC_NUM ;++i){
+            if(i-1 == playIndex)continue;
+            modelList.get(i).setPlay(false);
         }
+
         adapter.notifyDataSetChanged();  //更新列表适配器
         //设置播放状态
         if (isPlaying){
@@ -266,24 +273,21 @@ public class MusicList extends AppCompatActivity implements View.OnClickListener
         }else{
             ivHeadPlay.setImageResource(R.drawable.nowplaying_play_n);
         }
+
+        rlAllHead.setBackgroundResource(modelList.get(playIndex+1).getHeadBgId());
+        AlphaAnimation alphaAnimation = new AlphaAnimation(0.65f, 1.0f);
+        alphaAnimation.setDuration(1000);
+        rlAllHead.setAnimation(alphaAnimation);
         setAnimation();
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (position == 1){
-            playIndex = 0;
-
-        }else if(position == 2){
-            playIndex = 1;
+        if (position >= 1 && position <= MUSIC_NUM){
+            playIndex = position - 1;
         }
         isPlaying = true;
-
-        rlAllHead.setBackgroundResource(modelList.get(playIndex+1).getHeadBgId());
-        AlphaAnimation alphaAnimation = new AlphaAnimation(0.5f, 1.0f);
-        alphaAnimation.setDuration(500);
-        rlAllHead.setAnimation(alphaAnimation);
-
+        play(0,true);
         setPlayingStatus();
         //entryMusicPlay();
     }
@@ -296,9 +300,16 @@ public class MusicList extends AppCompatActivity implements View.OnClickListener
                 break;
             case R.id.music_list_head_song_name_next_iv:
                 touchedNext(event);
+                play(0,true);
                 break;
             case R.id.music_list_head_song_name_playing_iv:
                 touchedPlay(event);
+                if (isPlaying){
+                    play(ConstUtil.STATE_PLAY,false);
+                }else{
+                    play(ConstUtil.STATE_PAUSE,false);
+                }
+
                 break;
 
         }
@@ -322,7 +333,7 @@ public class MusicList extends AppCompatActivity implements View.OnClickListener
             ivHeadNext.setImageResource(R.drawable.nowplaying_next_p);
         }else if(event.getAction() == MotionEvent.ACTION_UP){
             ivHeadNext.setImageResource(R.drawable.nowplaying_next_n);
-            playIndex = (playIndex +1)%2;
+            playIndex = (playIndex +1)%MUSIC_NUM;
             rlAllHead.setBackgroundResource(modelList.get(playIndex+1).getHeadBgId());
             AlphaAnimation alphaAnimation = new AlphaAnimation(0.5f, 1.0f);
             alphaAnimation.setDuration(500);
@@ -346,7 +357,8 @@ public class MusicList extends AppCompatActivity implements View.OnClickListener
                 ivHeadPlay.setImageResource(R.drawable.nowplaying_pause_n);
             }
             isPlaying = !isPlaying;
-            setPlayingStatus();
+            setAnimation();
+           // setPlayingStatus();
         }
     }
 
@@ -359,6 +371,33 @@ public class MusicList extends AppCompatActivity implements View.OnClickListener
         }else {
             animation.stop();
         }
+    }
+
+    /**
+     * 设置播放
+     * @param state
+     * @param isNext
+     */
+    private void play(int state,boolean isNext){
+        if (isFirstPlaying || isNext){
+            playMusic(paths[playIndex]);
+            isFirstPlaying = false;
+        }else{
+            sendBroadCastToService(state);
+        }
+    }
+
+    protected void sendBroadCastToService(int state){
+        Intent intent = new Intent();
+        intent.setAction(ConstUtil.MUSICSERVICE_ACTION);
+        intent.putExtra("control", state);
+        this.sendBroadcast(intent);
+    }
+
+    public void playMusic(String path){
+        Intent intent=new Intent(this,PlayService.class);
+        intent.putExtra("path", path);
+        this.startService(intent);
     }
 }
 

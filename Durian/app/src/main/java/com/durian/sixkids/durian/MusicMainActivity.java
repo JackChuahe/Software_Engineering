@@ -44,8 +44,10 @@ public class MusicMainActivity extends AppCompatActivity implements View.OnClick
     private boolean isPlaying = false;
     private int playIndex = 0;
     private List<MusicModel> musics = new ArrayList<MusicModel>();
-    private final  static  String [] paths = {"/storage/emulated/0/KuwoMusic/music/Aplogize-Timbaland.mp3"};
-    private static  boolean isFirstPlaying = true;
+    private final  static  String [] paths = {"/storage/emulated/0/KuwoMusic/music/TiK ToK (Live).mp3","/storage/emulated/0/KuwoMusic/music/Uptown Funk.mp3","/storage/emulated/0/KuwoMusic/music/You Are Beautiful.mp3"};
+    private final static int  MUSIC_NUM = 3;
+    private   boolean isFirstPlaying = true;
+    private int time = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -81,7 +83,7 @@ public class MusicMainActivity extends AppCompatActivity implements View.OnClick
         model2.setAlbum("Promo Only Mainstream Radio October");
         model2.setSinger("Ke.Ha");
         model2.setName("Tik Tok");
-        model2.setResId(R.drawable.test_song_head_bg);
+        model2.setResId(R.drawable.tktk_img);
         musics.add(model2);
 
         MusicModel model3 = new MusicModel();
@@ -90,6 +92,13 @@ public class MusicMainActivity extends AppCompatActivity implements View.OnClick
         model3.setName("Uptown Funk");
         model3.setResId(R.drawable.updown_funk_img);
         musics.add(model3);
+
+        MusicModel model4 = new MusicModel();
+        model4.setAlbum("You Are Beautiful");
+        model4.setSinger("James Blunt");
+        model4.setName("Bigger");
+        model4.setResId(R.drawable.yrbf_img);
+        musics.add(model4);
     }
 
     private void initTouch(){
@@ -116,6 +125,8 @@ public class MusicMainActivity extends AppCompatActivity implements View.OnClick
                 Intent intent = new Intent(this, MusicList.class);
                 intent.putExtra("isPlaying",isPlaying);
                 intent.putExtra("playIndex",playIndex);
+                intent.putExtra("isFirstPlaying",isFirstPlaying);
+                intent.putExtra("time",time);
                 startActivityForResult(intent,0);
                 break;
             case R.id.main_activity_title_me:
@@ -127,6 +138,8 @@ public class MusicMainActivity extends AppCompatActivity implements View.OnClick
                 Intent in = new Intent(this, MusicPlay.class);
                 in.putExtra("isPlaying",isPlaying);
                 in.putExtra("playIndex",playIndex);
+                in.putExtra("isFirstPlaying",isFirstPlaying);
+                in.putExtra("time",time);
                 startActivityForResult(in,0);
                 break;
             case R.id.main_activity_bottom_bar_play_btn:
@@ -149,6 +162,8 @@ public class MusicMainActivity extends AppCompatActivity implements View.OnClick
         super.onActivityResult(requestCode, resultCode, data);
         isPlaying = data.getBooleanExtra("isPlaying",false);
         playIndex = data.getIntExtra("playIndex",0);
+        isFirstPlaying = data.getBooleanExtra("isFirstPlaying",true);
+        time = data.getIntExtra("time",time);
         setPlayingStatus();
     }
 
@@ -211,7 +226,7 @@ public class MusicMainActivity extends AppCompatActivity implements View.OnClick
         }else if(event.getAction() == MotionEvent.ACTION_UP){
             ivNext.setImageResource(R.drawable.h_nowplaying_bar_next_n);
             isPlaying = true;
-            playIndex = (playIndex +1 )%2;
+            playIndex = (playIndex +1 )%MUSIC_NUM;
             setPlayingStatus();
 
         }

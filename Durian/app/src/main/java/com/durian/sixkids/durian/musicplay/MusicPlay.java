@@ -1,10 +1,14 @@
 package com.durian.sixkids.durian.musicplay;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.AnimationDrawable;
-import android.media.Image;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -17,16 +21,20 @@ import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.durian.sixkids.durian.R;
 import com.durian.sixkids.durian.common.MusicModel;
 import com.durian.sixkids.durian.common.MyViewPagerAdapter;
+import com.durian.sixkids.durian.util.ConstUtil;
+import com.durian.sixkids.durian.util.PlayService;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
 
 /**
  * Created by JackCai on 2016/5/2.
@@ -39,6 +47,7 @@ public class MusicPlay extends AppCompatActivity implements View.OnTouchListener
     private final static int [] anims = {R.drawable.anim_wave_1,R.drawable.anim_wave_2,R.drawable.anim_wave_3,R.drawable.anim_wave_4,R.drawable.anim_wave_5,R.drawable.anim_wave_6,R.drawable.anim_wave_7,R.drawable.anim_wave_8,R.drawable.anim_wave_9,R.drawable.anim_wave_10};
     private List<AnimationDrawable> animationDrawables = new ArrayList<AnimationDrawable>();
     private List<MusicModel> musics = new ArrayList<MusicModel>();
+    private boolean isFirstPlaying = true;
 
     private ImageView ivBack;
     private ImageView ivCollect;
@@ -48,12 +57,33 @@ public class MusicPlay extends AppCompatActivity implements View.OnTouchListener
 
     private TextView tvSongName;
     private TextView tvAlbum;
+    private RelativeLayout rlBg;
 
     private LinearLayout lyProgress;
+    private TextView tvNowTime;
 
     private boolean isPlaying = true;
     private int playIndex = 0;
     private ImageView ivCenterImg;
+    private int nowTime = 25;
+    private int time = 0;
+
+    private final  static  String [] paths = {"/storage/emulated/0/KuwoMusic/music/TiK ToK (Live).mp3","/storage/emulated/0/KuwoMusic/music/Uptown Funk.mp3","/storage/emulated/0/KuwoMusic/music/You Are Beautiful.mp3"};
+    private final static int  MUSIC_NUM = 3;
+
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            //Toast.makeText(getApplicationContext(),"da",Toast.LENGTH_SHORT).show();
+            android.view.ViewGroup.LayoutParams lp = lyProgress.getLayoutParams();
+            lp.width = nowTime;
+            lyProgress.setLayoutParams(lp);
+            tvNowTime.setText("00:"+ time);
+
+        }
+    };
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,14 +101,81 @@ public class MusicPlay extends AppCompatActivity implements View.OnTouchListener
         tvAlbum = (TextView)findViewById(R.id.music_play_song_detail);
         tvSongName = (TextView)findViewById(R.id.music_play_songname);
 
+        rlBg = (RelativeLayout)findViewById(R.id.music_play_bg);
+        tvNowTime = (TextView)findViewById(R.id.music_play_now_time);
+
         lyProgress = (LinearLayout)findViewById(R.id.music_play_progress);
 
         initWindow();
         initFragment();
+
         initModels();
         getData();
         setPlayStatus();
         initTouchListener();
+        initThread();
+    }
+
+    private void initThread(){
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                while(true){
+                    if (isPlaying){
+                        nowTime += 8;
+                        ++time;
+                        handler.sendEmptyMessage(0);
+                        try {
+                            Thread.sleep(900);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+            }
+        };
+
+        new Thread(runnable).start();
+    }
+
+//    /**
+//     * 启动线程
+//     */
+//    private void initThread(){
+//        Runnable runnable = new Runnable() {
+//            @Override
+//            public void run() {
+//                while (true){
+//
+//                    if (isPlaying){
+//                        nowTime += 10;
+//                        runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                               // lyProgress.setLayoutParams(new LinearLayout.LayoutParams(nowTime, 1));
+//                            }
+//                        });
+//                        try {
+//                            Thread.sleep(400);
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }
+//            }
+//        };
+//        new Thread(runnable).start();
+//    }
+
+
+    //设置背景
+    private void setBg(){
+        rlBg.setBackgroundResource(musics.get(playIndex).getPlayBgId());
+        AlphaAnimation alphaAnimation = new AlphaAnimation(0.7f, 1.0f);
+        alphaAnimation.setDuration(2000);
+        rlBg.setAnimation(alphaAnimation);
+
     }
 
     private void initTouchListener(){
@@ -88,11 +185,14 @@ public class MusicPlay extends AppCompatActivity implements View.OnTouchListener
     }
     private void getData(){
         Intent intent = getIntent();
-        isPlaying = true;
+        isPlaying = intent.getBooleanExtra("isPlaying",false);
         playIndex = intent.getIntExtra("playIndex",playIndex);
+        isFirstPlaying = intent.getBooleanExtra("isFirstPlaying",true);
+        time = intent.getIntExtra("time",0);
     }
 
     private void initFragment(){
+
 
         LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
         View viewCenter = inflater.inflate(R.layout.fragment_music_play_center,null);
@@ -163,14 +263,22 @@ public class MusicPlay extends AppCompatActivity implements View.OnTouchListener
         switch (v.getId()){
             case R.id.music_play_btn:
                 touchedPlayBtn(event);
+                if (isPlaying){
+                    play(ConstUtil.STATE_PLAY,false);
+                }else{
+                    play(ConstUtil.STATE_PAUSE,false);
+                }
                 break;
             case R.id.music_pre_btn:
                 touchedPreBtn(event);
+                play(0,true);
                 break;
             case R.id.music_next_btn:
                 touchedNextBtn(event);
+                play(0,true);
                 break;
             case R.id.music_play_collect:
+
                 break;
         }
         return true;
@@ -206,7 +314,11 @@ public class MusicPlay extends AppCompatActivity implements View.OnTouchListener
         }
         else if(event.getAction() == MotionEvent.ACTION_UP){
             ivPreBtn.setImageResource(R.drawable.nowplaying_prev_n);
-            playIndex = (playIndex+1)%2;
+            if (playIndex == 0)playIndex = MUSIC_NUM - 1;
+            else{
+                playIndex = (playIndex-1)%MUSIC_NUM;
+            }
+
             isPlaying = true;
             setPlayStatus();
         }
@@ -218,7 +330,7 @@ public class MusicPlay extends AppCompatActivity implements View.OnTouchListener
         }
         else if(event.getAction() == MotionEvent.ACTION_UP){
             ivNext.setImageResource(R.drawable.nowplaying_next_n);
-            playIndex = (playIndex+1)%2;
+            playIndex = (playIndex+1)%MUSIC_NUM;
             isPlaying = true;
             setPlayStatus();
         }
@@ -235,15 +347,25 @@ public class MusicPlay extends AppCompatActivity implements View.OnTouchListener
         model2.setAlbum("Promo Only Mainstream Radio October");
         model2.setSinger("Ke.Ha");
         model2.setName("Tik Tok");
-        model2.setResId(R.drawable.test_song_head_bg);
+        model2.setPlayBgId(R.drawable.tktk_play_bg);
+        model2.setResId(R.drawable.tktk_img);
         musics.add(model2);
 
         MusicModel model3 = new MusicModel();
         model3.setAlbum("Uptown Funk");
         model3.setSinger("Mark Ronson");
         model3.setName("Uptown Funk");
+        model3.setPlayBgId(R.drawable.upfun_play_bg);
         model3.setResId(R.drawable.updown_funk_img);
         musics.add(model3);
+
+        MusicModel model4 = new MusicModel();
+        model4.setAlbum("You Are Beautiful");
+        model4.setSinger("James Blunt");
+        model4.setName("Bigger");
+        model4.setResId(R.drawable.yrbf_img);
+        model4.setPlayBgId(R.drawable.yrbtf_play_bg);
+        musics.add(model4);
     }
 
     /**
@@ -257,9 +379,11 @@ public class MusicPlay extends AppCompatActivity implements View.OnTouchListener
             ivPlaying.setImageResource(R.drawable.nowplaying_play_n);
         }
 
+        setBg();  //设置背景
+
         ivCenterImg.setImageResource(model.getResId());
-        AlphaAnimation alphaAnimation = new AlphaAnimation(0.0f, 1.0f);
-        alphaAnimation.setDuration(1300);
+        AlphaAnimation alphaAnimation = new AlphaAnimation(0.5f, 1.0f);
+        alphaAnimation.setDuration(1000);
         ivCenterImg.setAnimation(alphaAnimation);
 
         tvSongName.setText(model.getName());
@@ -279,7 +403,40 @@ public class MusicPlay extends AppCompatActivity implements View.OnTouchListener
         Intent intent = new Intent();
         intent.putExtra("isPlaying",isPlaying);
         intent.putExtra("playIndex",playIndex);
+        intent.putExtra("isFirstPlaying",isFirstPlaying);
+        intent.putExtra("time",time);
         setResult(1,intent);
         finish();
+    }
+
+
+    /**
+     * 设置播放
+     * @param state
+     * @param isNext
+     */
+    private void play(int state,boolean isNext){
+        if (isFirstPlaying || isNext){
+            playMusic(paths[playIndex]);
+            isFirstPlaying = false;
+            nowTime = 25;
+            time = 0;
+            tvNowTime.setText("00:00");
+        }else{
+            sendBroadCastToService(state);
+        }
+    }
+
+    protected void sendBroadCastToService(int state){
+        Intent intent = new Intent();
+        intent.setAction(ConstUtil.MUSICSERVICE_ACTION);
+        intent.putExtra("control", state);
+        this.sendBroadcast(intent);
+    }
+
+    public void playMusic(String path){
+        Intent intent=new Intent(this,PlayService.class);
+        intent.putExtra("path", path);
+        this.startService(intent);
     }
 }

@@ -3,8 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <RelativeLayout
+        android:id="@+id/music_play_bg"
         android:layout_width="match_parent"
-        android:background="@drawable/music_play_bg"
+        android:background="@drawable/upfun_play_bg"
         android:paddingTop="30dp"
         android:paddingLeft="15dp"
         android:paddingBottom="10dp"
@@ -120,7 +121,7 @@
                 <LinearLayout
                     android:layout_centerVertical="true"
                     android:layout_width="match_parent"
-                    android:background="#b3a7a7"
+                    android:background="#b7a6a6"
                     android:layout_height="1dp"></LinearLayout>
                 <LinearLayout
                     android:layout_centerVertical="true"
@@ -142,15 +143,17 @@
                 <TextView
                     android:id="@+id/music_play_now_time"
                     android:layout_width="wrap_content"
-                    android:text="00:56"
-                    android:textColor="#FFFFFF"
+                    android:text="00:00"
+                    android:textSize="12sp"
+                    android:textColor="#e7dcdc"
                     android:layout_height="wrap_content" />
                 <TextView
                     android:id="@+id/music_play_end_time"
                     android:layout_width="wrap_content"
                     android:layout_alignParentRight="true"
                     android:text="03:45"
-                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    android:textColor="#e7dcdc"
                     android:layout_height="wrap_content" />
             </RelativeLayout>
 
