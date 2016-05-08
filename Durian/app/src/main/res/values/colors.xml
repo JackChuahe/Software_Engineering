@@ -7,4 +7,10 @@
     <color name="orangecolor">#e66112</color>
     <color name="textdefualtcolor">#737373</color>
     <color name="textgray">#8c8c8c</color>
+
+    <color name="btn_down">#62BDFF</color>
+    <color name="btn_up">#0291FF</color>
+    <color name="re_up">#FFFFFF</color>
+    <color name="re_down">#EEF0EF</color>
+    <color name="org">#e66112</color>
 </resources>

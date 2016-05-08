@@ -126,7 +126,7 @@
                 <LinearLayout
                     android:layout_centerVertical="true"
                     android:id="@+id/music_play_progress"
-                    android:layout_width="100dp"
+                    android:layout_width="20dp"
                     android:background="#ffffff"
                     android:orientation="horizontal"
                     android:layout_height="1dp">

@@ -59,7 +59,7 @@ public class MusicList extends AppCompatActivity implements View.OnClickListener
     private boolean isPlaying = true;
     private int playIndex = 0;
     private boolean isFirstPlaying = true;
-    private final  static  String [] paths = {"/storage/emulated/0/KuwoMusic/music/TiK ToK (Live).mp3","/storage/emulated/0/KuwoMusic/music/Uptown Funk.mp3","/storage/emulated/0/KuwoMusic/music/You Are Beautiful.mp3"};
+    private final  static  String [] paths = {"/storage/sdcard0/zcw/Uptown Funk.mp3","/storage/sdcard0/zcw/TiK ToK (Live).mp3","/storage/sdcard0/zcw/You Are Beautiful.mp3"};
     private final static int  MUSIC_NUM = 3;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -131,6 +131,15 @@ public class MusicList extends AppCompatActivity implements View.OnClickListener
         model1.setPlay(false);
         modelList.add(model1);
 
+        MusicModel model3 = new MusicModel();
+        model3.setAlbum("Uptown Funk");
+        model3.setSinger("Mark Ronson");
+        model3.setName("Uptown Funk");
+        model3.setPlay(false);
+        model3.setHeadBgId(R.drawable.uptown_head_bg);
+        model3.setResId(R.drawable.updown_funk_img);
+        modelList.add(model3);
+
         MusicModel model2 = new MusicModel();
         model2.setAlbum("Promo Only Mainstream Radio October");
         model2.setSinger("Ke.Ha");
@@ -140,14 +149,7 @@ public class MusicList extends AppCompatActivity implements View.OnClickListener
         model2.setResId(R.drawable.tktk_img);
         modelList.add(model2);
 
-        MusicModel model3 = new MusicModel();
-        model3.setAlbum("Uptown Funk");
-        model3.setSinger("Mark Ronson");
-        model3.setName("Uptown Funk");
-        model3.setPlay(false);
-        model3.setHeadBgId(R.drawable.uptown_head_bg);
-        model3.setResId(R.drawable.updown_funk_img);
-        modelList.add(model3);
+
 
         MusicModel model4 = new MusicModel();
         model4.setAlbum("Bigger");

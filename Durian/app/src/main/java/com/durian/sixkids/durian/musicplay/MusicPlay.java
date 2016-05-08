@@ -67,8 +67,8 @@ public class MusicPlay extends AppCompatActivity implements View.OnTouchListener
     private ImageView ivCenterImg;
     private int nowTime = 25;
     private int time = 0;
+    private final  static  String [] paths = {"/storage/sdcard0/zcw/Uptown Funk.mp3","/storage/sdcard0/zcw/TiK ToK (Live).mp3","/storage/sdcard0/zcw/You Are Beautiful.mp3"};
 
-    private final  static  String [] paths = {"/storage/emulated/0/KuwoMusic/music/TiK ToK (Live).mp3","/storage/emulated/0/KuwoMusic/music/Uptown Funk.mp3","/storage/emulated/0/KuwoMusic/music/You Are Beautiful.mp3"};
     private final static int  MUSIC_NUM = 3;
 
     private Handler handler = new Handler(){
@@ -192,8 +192,6 @@ public class MusicPlay extends AppCompatActivity implements View.OnTouchListener
     }
 
     private void initFragment(){
-
-
         LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
         View viewCenter = inflater.inflate(R.layout.fragment_music_play_center,null);
         ivCenterImg = (ImageView) viewCenter.findViewById(R.id.fragment_music_play_album);
@@ -202,7 +200,6 @@ public class MusicPlay extends AppCompatActivity implements View.OnTouchListener
 
         View viewWave = inflater.inflate(R.layout.music_play_wave,null);
         LinearLayout ly = (LinearLayout)viewWave.findViewById(R.id.wave_ly);
-
 
         int i = 0;
         Random random = new Random(System.currentTimeMillis());
@@ -343,6 +340,14 @@ public class MusicPlay extends AppCompatActivity implements View.OnTouchListener
      * 初始化模型
      */
     private void initModels(){
+        MusicModel model3 = new MusicModel();
+        model3.setAlbum("Uptown Funk");
+        model3.setSinger("Mark Ronson");
+        model3.setName("Uptown Funk");
+        model3.setPlayBgId(R.drawable.upfun_play_bg);
+        model3.setResId(R.drawable.updown_funk_img);
+        musics.add(model3);
+
         MusicModel model2 = new MusicModel();
         model2.setAlbum("Promo Only Mainstream Radio October");
         model2.setSinger("Ke.Ha");
@@ -351,13 +356,7 @@ public class MusicPlay extends AppCompatActivity implements View.OnTouchListener
         model2.setResId(R.drawable.tktk_img);
         musics.add(model2);
 
-        MusicModel model3 = new MusicModel();
-        model3.setAlbum("Uptown Funk");
-        model3.setSinger("Mark Ronson");
-        model3.setName("Uptown Funk");
-        model3.setPlayBgId(R.drawable.upfun_play_bg);
-        model3.setResId(R.drawable.updown_funk_img);
-        musics.add(model3);
+
 
         MusicModel model4 = new MusicModel();
         model4.setAlbum("You Are Beautiful");
