@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.durian.sixkids.durian.R;
 import com.durian.sixkids.durian.common.MusicModel;
+import com.durian.sixkids.durian.common.Musics;
 import com.durian.sixkids.durian.common.MyViewPagerAdapter;
 import com.durian.sixkids.durian.util.ConstUtil;
 import com.durian.sixkids.durian.util.PlayService;
@@ -40,13 +41,17 @@ import java.util.Random;
  * Created by JackCai on 2016/5/2.
  */
 public class MusicPlay extends AppCompatActivity implements View.OnTouchListener{
+    private final static int PAGE_WAVE = 0;
+    private final static int PAGE_CENTER = 1;
+    private final static int PAGE_LYC = 2;
+
+
     private ViewPager viewPager;
     private MyViewPagerAdapter adapter;
     private List<View>views = new ArrayList<View>();
     private final static int MAX_NUM_WAVES = 20;
     private final static int [] anims = {R.drawable.anim_wave_1,R.drawable.anim_wave_2,R.drawable.anim_wave_3,R.drawable.anim_wave_4,R.drawable.anim_wave_5,R.drawable.anim_wave_6,R.drawable.anim_wave_7,R.drawable.anim_wave_8,R.drawable.anim_wave_9,R.drawable.anim_wave_10};
     private List<AnimationDrawable> animationDrawables = new ArrayList<AnimationDrawable>();
-    private List<MusicModel> musics = new ArrayList<MusicModel>();
     private boolean isFirstPlaying = true;
 
     private ImageView ivBack;
@@ -62,14 +67,11 @@ public class MusicPlay extends AppCompatActivity implements View.OnTouchListener
     private LinearLayout lyProgress;
     private TextView tvNowTime;
 
-    private boolean isPlaying = true;
-    private int playIndex = 0;
     private ImageView ivCenterImg;
     private int nowTime = 25;
-    private int time = 0;
-    private final  static  String [] paths = {"/storage/sdcard0/zcw/Uptown Funk.mp3","/storage/sdcard0/zcw/TiK ToK (Live).mp3","/storage/sdcard0/zcw/You Are Beautiful.mp3"};
 
-    private final static int  MUSIC_NUM = 3;
+
+
 
     private Handler handler = new Handler(){
         @Override
@@ -79,8 +81,10 @@ public class MusicPlay extends AppCompatActivity implements View.OnTouchListener
             android.view.ViewGroup.LayoutParams lp = lyProgress.getLayoutParams();
             lp.width = nowTime;
             lyProgress.setLayoutParams(lp);
-            tvNowTime.setText("00:"+ time);
-
+            tvNowTime.setText("00:"+ Musics.time);
+            if (PlayService.service != null) {
+                Toast.makeText(getApplicationContext(), PlayService.service.getCurrentDuration() + "", Toast.LENGTH_SHORT).show();
+            }
         }
     };
 
@@ -109,11 +113,15 @@ public class MusicPlay extends AppCompatActivity implements View.OnTouchListener
         initWindow();
         initFragment();
 
-        initModels();
         getData();
         setPlayStatus();
         initTouchListener();
         initThread();
+
+        if (PlayService.musicPlay == null){
+            PlayService.musicPlay = this;
+        }
+        PlayService.ACTIVITY = PlayService.MUSIC_PLAY;
     }
 
     private void initThread(){
@@ -121,9 +129,9 @@ public class MusicPlay extends AppCompatActivity implements View.OnTouchListener
             @Override
             public void run() {
                 while(true){
-                    if (isPlaying){
+                    if (Musics.isPlaying){
                         nowTime += 8;
-                        ++time;
+                        ++Musics.time;
                         handler.sendEmptyMessage(0);
                         try {
                             Thread.sleep(900);
@@ -139,39 +147,9 @@ public class MusicPlay extends AppCompatActivity implements View.OnTouchListener
         new Thread(runnable).start();
     }
 
-//    /**
-//     * 启动线程
-//     */
-//    private void initThread(){
-//        Runnable runnable = new Runnable() {
-//            @Override
-//            public void run() {
-//                while (true){
-//
-//                    if (isPlaying){
-//                        nowTime += 10;
-//                        runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                               // lyProgress.setLayoutParams(new LinearLayout.LayoutParams(nowTime, 1));
-//                            }
-//                        });
-//                        try {
-//                            Thread.sleep(400);
-//                        } catch (InterruptedException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }
-//            }
-//        };
-//        new Thread(runnable).start();
-//    }
-
-
     //设置背景
     private void setBg(){
-        rlBg.setBackgroundResource(musics.get(playIndex).getPlayBgId());
+        rlBg.setBackgroundResource(Musics.musicModels.get(Musics.playIndex).getPlayBgId());
         AlphaAnimation alphaAnimation = new AlphaAnimation(0.7f, 1.0f);
         alphaAnimation.setDuration(2000);
         rlBg.setAnimation(alphaAnimation);
@@ -184,11 +162,7 @@ public class MusicPlay extends AppCompatActivity implements View.OnTouchListener
         ivNext.setOnTouchListener(this);
     }
     private void getData(){
-        Intent intent = getIntent();
-        isPlaying = intent.getBooleanExtra("isPlaying",false);
-        playIndex = intent.getIntExtra("playIndex",playIndex);
-        isFirstPlaying = intent.getBooleanExtra("isFirstPlaying",true);
-        time = intent.getIntExtra("time",0);
+        //Intent intent = getIntent();
     }
 
     private void initFragment(){
@@ -229,14 +203,14 @@ public class MusicPlay extends AppCompatActivity implements View.OnTouchListener
 
         adapter = new MyViewPagerAdapter(views);
         viewPager.setAdapter(adapter);
-        viewPager.setCurrentItem(1);
+        viewPager.setCurrentItem(PAGE_CENTER);
     }
 
     /**
      * 启动wave动画效果
      */
     private void waveAnimation(){
-        if (isPlaying){
+        if (Musics.isPlaying){
             //启动动画
             for (AnimationDrawable animationDrawable : animationDrawables){
                 animationDrawable.start();
@@ -260,19 +234,13 @@ public class MusicPlay extends AppCompatActivity implements View.OnTouchListener
         switch (v.getId()){
             case R.id.music_play_btn:
                 touchedPlayBtn(event);
-                if (isPlaying){
-                    play(ConstUtil.STATE_PLAY,false);
-                }else{
-                    play(ConstUtil.STATE_PAUSE,false);
-                }
                 break;
             case R.id.music_pre_btn:
                 touchedPreBtn(event);
-                play(0,true);
+
                 break;
             case R.id.music_next_btn:
                 touchedNextBtn(event);
-                play(0,true);
                 break;
             case R.id.music_play_collect:
 
@@ -286,20 +254,26 @@ public class MusicPlay extends AppCompatActivity implements View.OnTouchListener
      */
     private  void touchedPlayBtn(MotionEvent event){
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            if (isPlaying) {
+            if (Musics.isPlaying) {
                 ivPlaying.setImageResource(R.drawable.nowplaying_pause_p);
             } else {
                 ivPlaying.setImageResource(R.drawable.nowplaying_play_p);
             }
         }
         else if(event.getAction() == MotionEvent.ACTION_UP){
-            if (isPlaying) {
+            if (Musics.isPlaying) {
                 ivPlaying.setImageResource(R.drawable.nowplaying_play_n);
             } else {
                 ivPlaying.setImageResource(R.drawable.nowplaying_pause_n);
             }
-            isPlaying = !isPlaying;
+            Musics.isPlaying = !Musics.isPlaying;
             waveAnimation(); //设置波浪效果
+            //设置播放状态
+            if (Musics.isPlaying){
+                play(ConstUtil.STATE_PLAY,false);
+            }else{
+                play(ConstUtil.STATE_PAUSE,false);
+            }
         }
     }
 
@@ -311,13 +285,13 @@ public class MusicPlay extends AppCompatActivity implements View.OnTouchListener
         }
         else if(event.getAction() == MotionEvent.ACTION_UP){
             ivPreBtn.setImageResource(R.drawable.nowplaying_prev_n);
-            if (playIndex == 0)playIndex = MUSIC_NUM - 1;
+            if (Musics.playIndex == 0)Musics.playIndex = Musics.musicModels.size() - 1;
             else{
-                playIndex = (playIndex-1)%MUSIC_NUM;
+                Musics.playIndex = (Musics.playIndex - 1)% Musics.musicModels.size();
             }
-
-            isPlaying = true;
+            Musics.isPlaying = true;
             setPlayStatus();
+            play(0,true);  //播放上一曲
         }
     }
 
@@ -326,53 +300,37 @@ public class MusicPlay extends AppCompatActivity implements View.OnTouchListener
             ivNext.setImageResource(R.drawable.nowplaying_next_p);
         }
         else if(event.getAction() == MotionEvent.ACTION_UP){
-            ivNext.setImageResource(R.drawable.nowplaying_next_n);
-            playIndex = (playIndex+1)%MUSIC_NUM;
-            isPlaying = true;
-            setPlayStatus();
+            playNext();
         }
     }
 
+    /**
+     * 播放下一曲
+     */
+    public void playNext(){
+        ivNext.setImageResource(R.drawable.nowplaying_next_n);
+        Musics.playIndex = (Musics.playIndex+1) % Musics.musicModels.size();
+        Musics.isPlaying = true;
+        setPlayStatus();
+        play(0,true);//播放下一曲
+    }
+
+    /**
+     * 点击了搜藏按钮
+     *
+     * @param event
+     */
     private void touchedCollectBtn(MotionEvent event){
 
     }
-    /**
-     * 初始化模型
-     */
-    private void initModels(){
-        MusicModel model3 = new MusicModel();
-        model3.setAlbum("Uptown Funk");
-        model3.setSinger("Mark Ronson");
-        model3.setName("Uptown Funk");
-        model3.setPlayBgId(R.drawable.upfun_play_bg);
-        model3.setResId(R.drawable.updown_funk_img);
-        musics.add(model3);
 
-        MusicModel model2 = new MusicModel();
-        model2.setAlbum("Promo Only Mainstream Radio October");
-        model2.setSinger("Ke.Ha");
-        model2.setName("Tik Tok");
-        model2.setPlayBgId(R.drawable.tktk_play_bg);
-        model2.setResId(R.drawable.tktk_img);
-        musics.add(model2);
-
-
-
-        MusicModel model4 = new MusicModel();
-        model4.setAlbum("You Are Beautiful");
-        model4.setSinger("James Blunt");
-        model4.setName("Bigger");
-        model4.setResId(R.drawable.yrbf_img);
-        model4.setPlayBgId(R.drawable.yrbtf_play_bg);
-        musics.add(model4);
-    }
 
     /**
      * 设置播放
      */
     private void setPlayStatus(){
-        MusicModel model = musics.get(playIndex);
-        if (isPlaying){
+        MusicModel model = Musics.musicModels.get(Musics.playIndex);
+        if (Musics.isPlaying){
             ivPlaying.setImageResource(R.drawable.nowplaying_pause_n);
         }else{
             ivPlaying.setImageResource(R.drawable.nowplaying_play_n);
@@ -399,12 +357,6 @@ public class MusicPlay extends AppCompatActivity implements View.OnTouchListener
     }
 
     private void keyBack(){
-        Intent intent = new Intent();
-        intent.putExtra("isPlaying",isPlaying);
-        intent.putExtra("playIndex",playIndex);
-        intent.putExtra("isFirstPlaying",isFirstPlaying);
-        intent.putExtra("time",time);
-        setResult(1,intent);
         finish();
     }
 
@@ -416,10 +368,10 @@ public class MusicPlay extends AppCompatActivity implements View.OnTouchListener
      */
     private void play(int state,boolean isNext){
         if (isFirstPlaying || isNext){
-            playMusic(paths[playIndex]);
+            playMusic(Musics.musicModels.get(Musics.playIndex).getSrc());
             isFirstPlaying = false;
             nowTime = 25;
-            time = 0;
+            Musics.time = 0;
             tvNowTime.setText("00:00");
         }else{
             sendBroadCastToService(state);

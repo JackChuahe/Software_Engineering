@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.durian.sixkids.durian.R;
 import com.durian.sixkids.durian.common.SetStatusBarTextColor;
+import com.durian.sixkids.durian.util.PlayService;
 
 
 /**
@@ -31,6 +32,8 @@ public class MeSetting extends AppCompatActivity implements View.OnClickListener
         setContentView(R.layout.usermanager);
         initWindow();
         getWindow().setFlags(Window.FEATURE_NO_TITLE, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        PlayService.ACTIVITY = PlayService.OTHER;
+
         umreturn = (RelativeLayout) this.findViewById(R.id.umre);
         SetStatusBarTextColor.setMiuiStatusBarDarkMode(this,true);
        umreturn.setOnClickListener(this);

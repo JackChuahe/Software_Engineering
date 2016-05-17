@@ -127,6 +127,7 @@
     android:layout_weight="1"
     android:background="@drawable/linear_layout_stroke"
     android:gravity="center"
+    android:id="@+id/lyCollect"
     android:layout_height="match_parent">
     <ImageView
         android:layout_width="30dp"
@@ -162,16 +163,17 @@
             android:background="@drawable/linear_layout_stroke"
             android:layout_width="match_parent"
             android:layout_weight="1"
+            android:id="@+id/lyDelete"
             android:layout_gravity="center"
             android:gravity="center"
             android:layout_height="match_parent">
             <ImageView
-                android:layout_width="30dp"
-                android:src="@drawable/action_button_remove_normal_light"
-                android:layout_height="30dp" />
+                android:layout_width="40dp"
+                android:src="@drawable/radar_download_normal"
+                android:layout_height="40dp" />
             <TextView
                 android:layout_width="wrap_content"
-                android:text="删除"
+                android:text="下载"
                 android:paddingLeft="3dp"
                 android:textColor="#787878"
                 android:layout_height="wrap_content" />

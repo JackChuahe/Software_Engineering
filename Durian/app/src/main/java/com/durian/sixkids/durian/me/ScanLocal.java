@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.durian.sixkids.durian.R;
+import com.durian.sixkids.durian.util.PlayService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -138,6 +139,9 @@ public class ScanLocal extends AppCompatActivity implements View.OnClickListener
         setContentView(R.layout.scanmusic);
         initWindow();
         getWindow().setFlags(Window.FEATURE_NO_TITLE, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        PlayService.ACTIVITY = PlayService.OTHER;
+
         Random ran=new Random();
         songPaths=new ArrayList<String>();
         String a="/mnt/sdcard/";

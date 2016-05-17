@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 
 import com.durian.sixkids.durian.R;
 import com.durian.sixkids.durian.common.SetStatusBarTextColor;
+import com.durian.sixkids.durian.util.PlayService;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 /**
@@ -39,6 +40,8 @@ public class MusicSearch extends AppCompatActivity {
         linthree.setAnimation(three);
         initWindow();
         SetStatusBarTextColor.setMiuiStatusBarDarkMode(this,true);
+
+        PlayService.ACTIVITY = PlayService.OTHER;
     }
 
     private void initWindow(){

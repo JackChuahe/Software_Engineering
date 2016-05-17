@@ -16,7 +16,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.durian.sixkids.durian.common.DBMuiscs;
 import com.durian.sixkids.durian.common.MusicModel;
+import com.durian.sixkids.durian.common.Musics;
 import com.durian.sixkids.durian.common.MyViewPagerAdapter;
 import com.durian.sixkids.durian.common.SetStatusBarTextColor;
 import com.durian.sixkids.durian.me.LocalManagement;
@@ -35,6 +37,8 @@ import java.util.List;
 
 public class MusicMainActivity extends AppCompatActivity implements View.OnClickListener ,View.OnTouchListener,ViewPager.OnPageChangeListener{
 //    private SystemBarTintManager tintManager;
+    private final static int ME = 1;
+    private final static int MUSIC_LIBRAY = 0;
 
     private TextView tvMusicLibrary;
     private TextView tvMyMusic;
@@ -50,29 +54,7 @@ public class MusicMainActivity extends AppCompatActivity implements View.OnClick
     private MyViewPagerAdapter adapter;
     private List<View> views = new ArrayList<View>();
 
-    public boolean isPlaying() {
-        return isPlaying;
-    }
 
-    public int getPlayIndex() {
-        return playIndex;
-    }
-
-    public int getTime() {
-        return time;
-    }
-
-    public boolean isFirstPlaying() {
-        return isFirstPlaying;
-    }
-
-    private boolean isPlaying = false;
-    private int playIndex = 0;
-    private List<MusicModel> musics = new ArrayList<MusicModel>();
-    private final  static  String [] paths = {"/storage/sdcard0/zcw/Uptown Funk.mp3","/storage/sdcard0/zcw/TiK ToK (Live).mp3","/storage/sdcard0/zcw/You Are Beautiful.mp3"};
-    private final static int  MUSIC_NUM = 3;
-    private   boolean isFirstPlaying = true;
-    private int time = 0;
     private MusicLibrary musicLibrary;
     private LocalManagement localManagement;
     @Override
@@ -105,6 +87,14 @@ public class MusicMainActivity extends AppCompatActivity implements View.OnClick
         initModels();
         setPlayingStatus();
         System.gc();
+
+        /**
+         *
+         */
+        if (PlayService.musicMainActivity == null){
+            PlayService.musicMainActivity = this;
+        }
+        PlayService.ACTIVITY = PlayService.MAIN_ACTIVITY;  //设置为当前页面
     }
 
     private  void initViewPager(){
@@ -122,30 +112,11 @@ public class MusicMainActivity extends AppCompatActivity implements View.OnClick
 
     }
 
+    /**
+     * 初始化模型
+     */
     private void initModels(){
-
-        MusicModel model3 = new MusicModel();
-        model3.setAlbum("Uptown Funk");
-        model3.setSinger("Mark Ronson");
-        model3.setName("Uptown Funk");
-        model3.setResId(R.drawable.updown_funk_img);
-        musics.add(model3);
-
-        MusicModel model2 = new MusicModel();
-        model2.setAlbum("Promo Only Mainstream Radio October");
-        model2.setSinger("Ke.Ha");
-        model2.setName("Tik Tok");
-        model2.setResId(R.drawable.tktk_img);
-        musics.add(model2);
-
-
-
-        MusicModel model4 = new MusicModel();
-        model4.setAlbum("You Are Beautiful");
-        model4.setSinger("James Blunt");
-        model4.setName("Bigger");
-        model4.setResId(R.drawable.yrbf_img);
-        musics.add(model4);
+        Musics.musicModels = DBMuiscs.queryAllMusic();
     }
 
     private void initTouch(){
@@ -165,7 +136,7 @@ public class MusicMainActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onRestart() {
         super.onRestart();
-        onPageSelected(0);
+        onPageSelected(MUSIC_LIBRAY);
     }
 
     @Override
@@ -175,13 +146,10 @@ public class MusicMainActivity extends AppCompatActivity implements View.OnClick
                 tvMusicLibrary.setTextColor(getResources().getColor(R.color.orangecolor));
                 tvMyMusic.setTextColor(getResources().getColor(R.color.textdefualtcolor));
                 tvMe.setTextColor(getResources().getColor(R.color.textdefualtcolor));
+                viewPager.setCurrentItem(MUSIC_LIBRAY);
                 break;
             case R.id.main_activity_title_mymusic:
                 Intent intent = new Intent(this, MusicList.class);
-                intent.putExtra("isPlaying",isPlaying);
-                intent.putExtra("playIndex",playIndex);
-                intent.putExtra("isFirstPlaying",isFirstPlaying);
-                intent.putExtra("time",time);
                 musicLibrary = null;
                 localManagement = null;
                 System.gc();
@@ -191,14 +159,10 @@ public class MusicMainActivity extends AppCompatActivity implements View.OnClick
                 tvMusicLibrary.setTextColor(getResources().getColor(R.color.textdefualtcolor));
                 tvMyMusic.setTextColor(getResources().getColor(R.color.textdefualtcolor));
                 tvMe.setTextColor(getResources().getColor(R.color.orangecolor));
-                viewPager.setCurrentItem(1);
+                viewPager.setCurrentItem(ME);
                 break;
             case R.id.main_activity_bottom_bar_iv:
                 Intent in = new Intent(this, MusicPlay.class);
-                in.putExtra("isPlaying",isPlaying);
-                in.putExtra("playIndex",playIndex);
-                in.putExtra("isFirstPlaying",isFirstPlaying);
-                in.putExtra("time",time);
                 musicLibrary = null;
                 localManagement = null;
                 System.gc();
@@ -225,23 +189,18 @@ public class MusicMainActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (data == null)return;
-        super.onActivityResult(requestCode, resultCode, data);
-        isPlaying = data.getBooleanExtra("isPlaying",false);
-        playIndex = data.getIntExtra("playIndex",0);
-        isFirstPlaying = data.getBooleanExtra("isFirstPlaying",true);
-        time = data.getIntExtra("time",time);
         setPlayingStatus();
     }
 
     //设置状态
-    void setPlayingStatus(){
-        if (isPlaying){
+    private void setPlayingStatus(){
+        if (Musics.isPlaying){
             ivPlay.setImageResource(R.drawable.h_nowplaying_bar_pause_n);
         }else{
             ivPlay.setImageResource(R.drawable.h_nowplaying_bar_play_n);
         }
 
-        MusicModel model = musics.get(playIndex);
+        MusicModel model = Musics.musicModels.get(Musics.playIndex);
         tvSongName.setText(model.getSinger()+" - "+ model.getName());
         tvSinger.setText(model.getAlbum());
         //设置logo
@@ -260,15 +219,9 @@ public class MusicMainActivity extends AppCompatActivity implements View.OnClick
         switch (v.getId()){
             case R.id.main_activity_bottom_bar_play_btn:
                 setOnPlaying(event);
-                if (isPlaying){
-                    play(ConstUtil.STATE_PLAY,false);
-                }else{
-                    play(ConstUtil.STATE_PAUSE,false);
-                }
                 break;
             case R.id.main_activity_bottom_bar_next_btn:
                 setOnNext(event);
-                play(0,true);
                 break;
             case R.id.main_activity_title_search_iv:
                 setSearch(event);
@@ -290,29 +243,42 @@ public class MusicMainActivity extends AppCompatActivity implements View.OnClick
         if (event.getAction() == MotionEvent.ACTION_DOWN){
             ivNext.setImageResource(R.drawable.h_nowplaying_bar_next_p);
         }else if(event.getAction() == MotionEvent.ACTION_UP){
-            ivNext.setImageResource(R.drawable.h_nowplaying_bar_next_n);
-            isPlaying = true;
-            playIndex = (playIndex +1 )%MUSIC_NUM;
-            setPlayingStatus();
-
+            playNext(); //播放下一曲
         }
+    }
+
+    /**
+     * 播放下一曲
+     */
+    public void playNext(){
+        ivNext.setImageResource(R.drawable.h_nowplaying_bar_next_n);
+        Musics.isPlaying = true;
+        Musics.playIndex = (Musics.playIndex +1 ) % Musics.musicModels.size();
+        setPlayingStatus();
+        play(0,true);
     }
     //playing
     private void setOnPlaying(MotionEvent event){
         if (event.getAction() == MotionEvent.ACTION_DOWN){
-            if (isPlaying){
+            if (Musics.isPlaying){
                 ivPlay.setImageResource(R.drawable.h_nowplaying_bar_pause_p);
             }else{
                 ivPlay.setImageResource(R.drawable.h_nowplaying_bar_play_p);
             }
         }else if (event.getAction() == MotionEvent.ACTION_UP){
-            if (isPlaying){
+            if (Musics.isPlaying){
                 ivPlay.setImageResource(R.drawable.h_nowplaying_bar_play_n);
             }else {
                 ivPlay.setImageResource(R.drawable.h_nowplaying_bar_pause_n);
 
             }
-            isPlaying  = !isPlaying;
+            Musics.isPlaying  = !Musics.isPlaying;
+
+            if (Musics.isPlaying){
+                play(ConstUtil.STATE_PLAY,false);
+            }else{
+                play(ConstUtil.STATE_PAUSE,false);
+            }
         }
     }
 
@@ -322,9 +288,9 @@ public class MusicMainActivity extends AppCompatActivity implements View.OnClick
      * @param isNext
      */
     private void play(int state,boolean isNext){
-    if (isFirstPlaying || isNext){
-        playMusic(paths[playIndex]);
-        isFirstPlaying = false;
+    if (Musics.isFirstPlaying || isNext){
+        playMusic(Musics.musicModels.get(Musics.playIndex).getSrc());
+        Musics.isFirstPlaying = false;
     }else{
         sendBroadCastToService(state);
     }

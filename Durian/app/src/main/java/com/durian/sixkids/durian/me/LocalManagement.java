@@ -86,10 +86,6 @@ public class LocalManagement   implements View.OnClickListener,View.OnTouchListe
                     activity.startActivity(intent3);
                 }else if(id == R.id.lglocalmusic){
                     Intent intent = new Intent(activity, MusicList.class);
-                    intent.putExtra("isPlaying",activity.isPlaying());
-                    intent.putExtra("playIndex",activity.getPlayIndex());
-                    intent.putExtra("isFirstPlaying",activity.isFirstPlaying());
-                    intent.putExtra("time",activity.getTime());
                     activity.startActivityForResult(intent,0);
                 }
                 break;
