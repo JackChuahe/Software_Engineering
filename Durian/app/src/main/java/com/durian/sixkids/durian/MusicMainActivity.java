@@ -86,7 +86,7 @@ public class MusicMainActivity extends AppCompatActivity implements View.OnClick
         initTouch();
         initModels();
         setPlayingStatus();
-        System.gc();
+
 
         /**
          *
@@ -104,6 +104,7 @@ public class MusicMainActivity extends AppCompatActivity implements View.OnClick
         views.add(mainSearchView);
 
         View localManaView = inflater.inflate(R.layout.localmanagement_fragment,null);
+        localManagement = new LocalManagement(this,localManaView);
         views.add(localManaView);
 
         adapter = new MyViewPagerAdapter(views);
@@ -136,7 +137,8 @@ public class MusicMainActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onRestart() {
         super.onRestart();
-        onPageSelected(MUSIC_LIBRAY);
+        //onPageSelected(MUSIC_LIBRAY);
+        setPlayingStatus();
     }
 
     @Override
@@ -150,9 +152,9 @@ public class MusicMainActivity extends AppCompatActivity implements View.OnClick
                 break;
             case R.id.main_activity_title_mymusic:
                 Intent intent = new Intent(this, MusicList.class);
-                musicLibrary = null;
-                localManagement = null;
-                System.gc();
+//                musicLibrary = null;
+//                localManagement = null;
+//                System.gc();
                 startActivityForResult(intent,0);
                 break;
             case R.id.main_activity_title_me:
@@ -163,9 +165,9 @@ public class MusicMainActivity extends AppCompatActivity implements View.OnClick
                 break;
             case R.id.main_activity_bottom_bar_iv:
                 Intent in = new Intent(this, MusicPlay.class);
-                musicLibrary = null;
-                localManagement = null;
-                System.gc();
+//                musicLibrary = null;
+//                localManagement = null;
+//                System.gc();
                 startActivityForResult(in,0);
                 break;
             case R.id.main_activity_bottom_bar_play_btn:
@@ -243,6 +245,7 @@ public class MusicMainActivity extends AppCompatActivity implements View.OnClick
         if (event.getAction() == MotionEvent.ACTION_DOWN){
             ivNext.setImageResource(R.drawable.h_nowplaying_bar_next_p);
         }else if(event.getAction() == MotionEvent.ACTION_UP){
+            play(0,true);
             playNext(); //播放下一曲
         }
     }
@@ -252,10 +255,8 @@ public class MusicMainActivity extends AppCompatActivity implements View.OnClick
      */
     public void playNext(){
         ivNext.setImageResource(R.drawable.h_nowplaying_bar_next_n);
-        Musics.isPlaying = true;
-        Musics.playIndex = (Musics.playIndex +1 ) % Musics.musicModels.size();
         setPlayingStatus();
-        play(0,true);
+        //play(0,true);
     }
     //playing
     private void setOnPlaying(MotionEvent event){
@@ -288,10 +289,12 @@ public class MusicMainActivity extends AppCompatActivity implements View.OnClick
      * @param isNext
      */
     private void play(int state,boolean isNext){
-    if (Musics.isFirstPlaying || isNext){
+    if (isNext){
+        PlayService.playNext();
         playMusic(Musics.musicModels.get(Musics.playIndex).getSrc());
-        Musics.isFirstPlaying = false;
-    }else{
+    }else if (Musics.isFirstPlaying){
+        playMusic(Musics.musicModels.get(Musics.playIndex).getSrc());
+    } else{
         sendBroadCastToService(state);
     }
 }
@@ -317,19 +320,19 @@ public class MusicMainActivity extends AppCompatActivity implements View.OnClick
     @Override
     public void onPageSelected(int position) {
         if (position == 0){
-            localManagement = null;
-            System.gc();
+//            localManagement = null;
+//            System.gc();
             tvMusicLibrary.setTextColor(getResources().getColor(R.color.orangecolor));
             tvMyMusic.setTextColor(getResources().getColor(R.color.textdefualtcolor));
             tvMe.setTextColor(getResources().getColor(R.color.textdefualtcolor));
-            musicLibrary = new MusicLibrary(this,views.get(0));
+//            musicLibrary = new MusicLibrary(this,views.get(0));
         }else {
-            musicLibrary = null;
-            System.gc();
+//            musicLibrary = null;
+//            System.gc();
             tvMusicLibrary.setTextColor(getResources().getColor(R.color.textdefualtcolor));
             tvMyMusic.setTextColor(getResources().getColor(R.color.textdefualtcolor));
             tvMe.setTextColor(getResources().getColor(R.color.orangecolor));
-            localManagement = new LocalManagement(this,views.get(1));
+//            localManagement = new LocalManagement(this,views.get(1));
         }
 
     }

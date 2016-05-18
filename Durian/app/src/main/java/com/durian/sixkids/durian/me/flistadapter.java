@@ -10,15 +10,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.durian.sixkids.durian.R;
+import com.durian.sixkids.durian.common.DownloadList;
+import com.durian.sixkids.durian.common.MusicModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by yu on 2016/5/4.
  */
-public class flistadapter extends BaseAdapter {
-    private ArrayList<HashMap<String,Object>>list;
+public class Flistadapter extends BaseAdapter {
     private LayoutInflater mInflater;
     private Context context;
     private class Holder{
@@ -29,20 +31,19 @@ public class flistadapter extends BaseAdapter {
         com.durian.sixkids.durian.me.RoundProgressBar bar;
     }
 
-    public flistadapter(Context context,ArrayList<HashMap<String,Object>>list){
+    public Flistadapter(Context context){
         this.context=context;
-        this.list=list;
         mInflater=LayoutInflater.from(context);
     }
 
     @Override
     public int getCount() {
-        return null==list?0:list.size();
+        return null== DownloadList.downloading?0:DownloadList.downloading.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return list.get(position);
+        return DownloadList.downloading.get(position);
     }
 
     @Override
@@ -68,12 +69,12 @@ public class flistadapter extends BaseAdapter {
             holder=(Holder)convertView.getTag();
         }
 
-        if(null!=list&&!list.isEmpty()){
+        if(null!=DownloadList.downloading&&!DownloadList.downloading.isEmpty()){
 
-            holder.text1.setText(list.get(position).get("text1").toString());
-            holder.text2.setText(list.get(position).get("text2").toString());
-            holder.text3.setText(list.get(position).get("text3").toString());
-            holder.text4.setText(list.get(position).get("text4").toString());
+            holder.text1.setText(DownloadList.downloading.get(position).getName());
+            holder.text2.setText(DownloadList.downloading.get(position).getTime()+"");
+            holder.text3.setText(DownloadList.downloading.get(position).getSize()+"MB");
+            holder.text4.setText(DownloadList.downloading.get(position).getState());
 
 
             holder.bar.setMax(100);

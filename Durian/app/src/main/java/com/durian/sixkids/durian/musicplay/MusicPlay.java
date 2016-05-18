@@ -22,6 +22,7 @@ import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +47,7 @@ public class MusicPlay extends AppCompatActivity implements View.OnTouchListener
     private final static int PAGE_LYC = 2;
 
 
+    private SeekBar seekBar;
     private ViewPager viewPager;
     private MyViewPagerAdapter adapter;
     private List<View>views = new ArrayList<View>();
@@ -66,9 +68,14 @@ public class MusicPlay extends AppCompatActivity implements View.OnTouchListener
 
     private LinearLayout lyProgress;
     private TextView tvNowTime;
+    private TextView tvEndTime;
+
+    private ImageView ivPlayType;
+    private ImageView ivDownload;
+    private ImageView ivShare;
 
     private ImageView ivCenterImg;
-    private int nowTime = 25;
+//    private int nowTime = 25;
 
 
 
@@ -78,12 +85,19 @@ public class MusicPlay extends AppCompatActivity implements View.OnTouchListener
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             //Toast.makeText(getApplicationContext(),"da",Toast.LENGTH_SHORT).show();
-            android.view.ViewGroup.LayoutParams lp = lyProgress.getLayoutParams();
+          /*  android.view.ViewGroup.LayoutParams lp = lyProgress.getLayoutParams();
             lp.width = nowTime;
             lyProgress.setLayoutParams(lp);
-            tvNowTime.setText("00:"+ Musics.time);
+            tvNowTime.setText("00:"+ Musics.time);*/
             if (PlayService.service != null) {
-                Toast.makeText(getApplicationContext(), PlayService.service.getCurrentDuration() + "", Toast.LENGTH_SHORT).show();
+                seekBar.setMax(PlayService.service.getDuration());
+                seekBar.setProgress(PlayService.service.getCurrentDuration());
+                int min = PlayService.service.getCurrentDuration()/60000;
+                int second = (PlayService.service.getCurrentDuration() / 1000)%60;
+                tvNowTime.setText(min+":"+second);
+                 min = PlayService.service.getDuration()/60000;
+                 second = (PlayService.service.getDuration() / 1000)%60;
+                tvEndTime.setText(min+":"+second);
             }
         }
     };
@@ -107,8 +121,15 @@ public class MusicPlay extends AppCompatActivity implements View.OnTouchListener
 
         rlBg = (RelativeLayout)findViewById(R.id.music_play_bg);
         tvNowTime = (TextView)findViewById(R.id.music_play_now_time);
+        tvEndTime = (TextView)findViewById(R.id.music_play_end_time);
 
-        lyProgress = (LinearLayout)findViewById(R.id.music_play_progress);
+        seekBar = (SeekBar)findViewById(R.id.seekBar);
+
+        ivPlayType = (ImageView)findViewById(R.id.play_type);
+        ivDownload = (ImageView)findViewById(R.id.play_download);
+        ivShare = (ImageView)findViewById(R.id.play_share);
+
+       // lyProgress = (LinearLayout)findViewById(R.id.music_play_progress);
 
         initWindow();
         initFragment();
@@ -130,8 +151,6 @@ public class MusicPlay extends AppCompatActivity implements View.OnTouchListener
             public void run() {
                 while(true){
                     if (Musics.isPlaying){
-                        nowTime += 8;
-                        ++Musics.time;
                         handler.sendEmptyMessage(0);
                         try {
                             Thread.sleep(900);
@@ -160,6 +179,10 @@ public class MusicPlay extends AppCompatActivity implements View.OnTouchListener
         ivPlaying.setOnTouchListener(this);
         ivPreBtn.setOnTouchListener(this);
         ivNext.setOnTouchListener(this);
+        ivShare.setOnTouchListener(this);
+        ivDownload.setOnTouchListener(this);
+        ivPlayType.setOnTouchListener(this);
+
     }
     private void getData(){
         //Intent intent = getIntent();
@@ -245,8 +268,23 @@ public class MusicPlay extends AppCompatActivity implements View.OnTouchListener
             case R.id.music_play_collect:
 
                 break;
+            case R.id.play_type:
+                touchedPlayType(event);
+                break;
         }
         return true;
+    }
+
+    /**
+     * 设置播放模式
+     * @param event
+     */
+    private void touchedPlayType(MotionEvent event){
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+
+        }else if(event.getAction() == MotionEvent.ACTION_UP){
+
+        }
     }
 
     /**
@@ -274,6 +312,7 @@ public class MusicPlay extends AppCompatActivity implements View.OnTouchListener
             }else{
                 play(ConstUtil.STATE_PAUSE,false);
             }
+
         }
     }
 
@@ -285,13 +324,11 @@ public class MusicPlay extends AppCompatActivity implements View.OnTouchListener
         }
         else if(event.getAction() == MotionEvent.ACTION_UP){
             ivPreBtn.setImageResource(R.drawable.nowplaying_prev_n);
-            if (Musics.playIndex == 0)Musics.playIndex = Musics.musicModels.size() - 1;
-            else{
-                Musics.playIndex = (Musics.playIndex - 1)% Musics.musicModels.size();
-            }
-            Musics.isPlaying = true;
+
+            PlayService.playPre();
+            playMusic(Musics.musicModels.get(Musics.playIndex).getSrc());
             setPlayStatus();
-            play(0,true);  //播放上一曲
+            //play(0,true);  //播放上一曲
         }
     }
 
@@ -300,6 +337,7 @@ public class MusicPlay extends AppCompatActivity implements View.OnTouchListener
             ivNext.setImageResource(R.drawable.nowplaying_next_p);
         }
         else if(event.getAction() == MotionEvent.ACTION_UP){
+            play(0,true);
             playNext();
         }
     }
@@ -309,10 +347,8 @@ public class MusicPlay extends AppCompatActivity implements View.OnTouchListener
      */
     public void playNext(){
         ivNext.setImageResource(R.drawable.nowplaying_next_n);
-        Musics.playIndex = (Musics.playIndex+1) % Musics.musicModels.size();
-        Musics.isPlaying = true;
         setPlayStatus();
-        play(0,true);//播放下一曲
+        //play(0,true);//播放下一曲
     }
 
     /**
@@ -367,13 +403,12 @@ public class MusicPlay extends AppCompatActivity implements View.OnTouchListener
      * @param isNext
      */
     private void play(int state,boolean isNext){
-        if (isFirstPlaying || isNext){
+        if (isNext){
+            PlayService.playNext();
             playMusic(Musics.musicModels.get(Musics.playIndex).getSrc());
-            isFirstPlaying = false;
-            nowTime = 25;
-            Musics.time = 0;
-            tvNowTime.setText("00:00");
-        }else{
+        }else if (Musics.isFirstPlaying){
+            playMusic(Musics.musicModels.get(Musics.playIndex).getSrc());
+        } else{
             sendBroadCastToService(state);
         }
     }

@@ -15,6 +15,16 @@ public class MusicModel {
     private int playBgId;
     private boolean isPlay;
 
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    private String state;
+
     public String getSrc() {
         return src;
     }

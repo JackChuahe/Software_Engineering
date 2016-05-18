@@ -25,7 +25,6 @@ public class MusicLibrary  {
     private LinearLayout linearLayout;
     private MusicMainActivity activity;
     private View view;
-    private static boolean isLoad = false;
 
     public MusicLibrary(MusicMainActivity activity,View view){
         this.activity = activity;
@@ -48,8 +47,7 @@ public class MusicLibrary  {
             }
         });
 
-        if (!isLoad) {
-            isLoad = true;
+
             Timer timer = new Timer();
             TimerTask tast = new TimerTask() {
                 @Override
@@ -62,9 +60,6 @@ public class MusicLibrary  {
                 }
             };
             timer.schedule(tast, 3500);
-        }else{
-            pro.setVisibility(View.GONE);
-        }
     }
 
     Handler handler=new Handler(){

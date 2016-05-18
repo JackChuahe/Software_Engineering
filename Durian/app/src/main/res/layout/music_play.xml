@@ -118,24 +118,29 @@
                 android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <LinearLayout
-                    android:layout_centerVertical="true"
+                <SeekBar
+                    android:id="@+id/seekBar"
                     android:layout_width="match_parent"
-                    android:background="#b7a6a6"
-                    android:layout_height="1dp"></LinearLayout>
-                <LinearLayout
-                    android:layout_centerVertical="true"
-                    android:id="@+id/music_play_progress"
-                    android:layout_width="20dp"
-                    android:background="#ffffff"
-                    android:orientation="horizontal"
-                    android:layout_height="1dp">
-                </LinearLayout>
-                <ImageView
-                    android:layout_alignRight="@+id/music_play_progress"
-                    android:layout_width="25dp"
-                    android:src="@drawable/seekbar_thumb_normal_dark"
-                    android:layout_height="25dp" />
+                    android:layout_height="wrap_content"
+                    style="@style/Base.TextAppearance.AppCompat.Body1" />
+                                <!--<LinearLayout-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:background="#b7a6a6"-->
+                    <!--android:layout_height="1dp"></LinearLayout>-->
+                <!--<LinearLayout-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:id="@+id/music_play_progress"-->
+                    <!--android:layout_width="20dp"-->
+                    <!--android:background="#ffffff"-->
+                    <!--android:orientation="horizontal"-->
+                    <!--android:layout_height="1dp">-->
+                <!--</LinearLayout>-->
+                <!--<ImageView-->
+                    <!--android:layout_alignRight="@+id/music_play_progress"-->
+                    <!--android:layout_width="25dp"-->
+                    <!--android:src="@drawable/seekbar_thumb_normal_dark"-->
+                    <!--android:layout_height="25dp" />-->
             </RelativeLayout>
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -151,7 +156,7 @@
                     android:id="@+id/music_play_end_time"
                     android:layout_width="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="03:45"
+                    android:text="00:00"
                     android:textSize="12sp"
                     android:textColor="#e7dcdc"
                     android:layout_height="wrap_content" />

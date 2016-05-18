@@ -242,7 +242,9 @@ public class MusicList extends AppCompatActivity implements View.OnClickListener
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Musics.playIndex = position;
         Musics.isPlaying = true;
-        play(0,true);
+        PlayService.setState();
+        playMusic(Musics.musicModels.get(Musics.playIndex).getSrc());
+        //play(0,true);
         setPlayingStatus();
         //entryMusicPlay();
     }
@@ -454,6 +456,7 @@ public class MusicList extends AppCompatActivity implements View.OnClickListener
         if (event.getAction() == MotionEvent.ACTION_DOWN){
             ivHeadNext.setImageResource(R.drawable.nowplaying_next_p);
         }else if(event.getAction() == MotionEvent.ACTION_UP){
+            play(0,true);
             playNext();
         }
     }
@@ -461,14 +464,12 @@ public class MusicList extends AppCompatActivity implements View.OnClickListener
     public void playNext(){
 
         ivHeadNext.setImageResource(R.drawable.nowplaying_next_n);
-        Musics.playIndex = (Musics.playIndex +1)%Musics.musicModels.size();
         rlAllHead.setBackgroundResource(Musics.musicModels.get(Musics.playIndex).getHeadBgId());
         AlphaAnimation alphaAnimation = new AlphaAnimation(0.5f, 1.0f);
         alphaAnimation.setDuration(500);
-        Musics.isPlaying = true;
         rlAllHead.setAnimation(alphaAnimation);
         setPlayingStatus();
-        play(0,true);  //播放下一曲
+        //play(0,true);  //播放下一曲
     }
 
     /**
@@ -518,10 +519,12 @@ public class MusicList extends AppCompatActivity implements View.OnClickListener
      * @param isNext
      */
     public void play(int state,boolean isNext){
-        if (Musics.isFirstPlaying || isNext){
+        if (isNext){
+            PlayService.playNext();
             playMusic(Musics.musicModels.get(Musics.playIndex).getSrc());
-            Musics.isFirstPlaying = false;
-        }else{
+        }else if (Musics.isFirstPlaying){
+            playMusic(Musics.musicModels.get(Musics.playIndex).getSrc());
+        } else{
             sendBroadCastToService(state);
         }
     }

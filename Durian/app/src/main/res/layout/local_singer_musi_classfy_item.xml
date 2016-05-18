@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/hline3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E8E8E8"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="horizontal" />
+
+    <RelativeLayout
+        android:id="@+id/loveitem1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/hline3"
+        >
+        <ImageView
+            android:id="@+id/loveitemimage1"
+            android:layout_margin="10dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/zgr"
+            />
+        <TextView
+            android:id="@+id/loveitemtext1"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@id/loveitemimage1"
+            android:layout_marginLeft="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:text="张国荣"
+            android:textColor="#323232"
+            />
+        <TextView
+            android:id="@+id/loveitemtext2"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@id/loveitemimage1"
+            android:layout_below="@id/loveitemtext1"
+            android:layout_marginLeft="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="13dp"
+            android:text="我的歌单|1首歌曲"
+            android:textColor="#8C8C8C"
+            />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginRight="10dp"
+            android:src="@mipmap/arrow_right_normal"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            />
+
+    </RelativeLayout>
+</RelativeLayout>

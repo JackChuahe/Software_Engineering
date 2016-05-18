@@ -17,7 +17,7 @@ public class DBMuiscs  {
     private static final String DB_NAME = "durian";
     public DBMuiscs(Context context){
         db = context.openOrCreateDatabase(DB_NAME,Context.MODE_PRIVATE,null);
-        db.execSQL("create table if not exists music (name varchar,album varchar ,singer varchar,playBg integer ,headBg integer ,resBg integer,lyc varchar,src varchar)");
+        db.execSQL("create table if not exists music (name varchar,album varchar ,singer varchar,playBg integer ,headBg integer ,resBg integer,lyc varchar,src varchar,state integer)");
     }
 
     /**
@@ -39,7 +39,7 @@ public class DBMuiscs  {
     public static List<MusicModel> queryAllMusic(){
         List<MusicModel> musicModels = new ArrayList<MusicModel>();
         if (db!= null && db.isOpen()){
-            Cursor c = db.rawQuery("select * from music",null);
+            Cursor c = db.rawQuery("select * from music where state = 1",null);
             while (c.moveToNext()){
                 MusicModel m = new MusicModel();
                 m.setName(c.getString(0));
@@ -64,7 +64,7 @@ public class DBMuiscs  {
     public static List<MusicModel> queryBySinger(String singer){
         List<MusicModel> musicModels = new ArrayList<MusicModel>();
         if (db!= null && db.isOpen()){
-            Cursor c = db.rawQuery("select * from music where singer = ?",new String[]{singer});
+            Cursor c = db.rawQuery("select * from music where singer = ? and state = 1",new String[]{singer});
             while (c.moveToNext()){
                 MusicModel m = new MusicModel();
                 m.setName(c.getString(0));
@@ -88,7 +88,7 @@ public class DBMuiscs  {
      */
     public static boolean deleteMusic(String musicName){
         if (db!= null && db.isOpen()){
-            db.execSQL("delete from music where name = ?",new Object[]{musicName});
+            db.execSQL("update music set state = 0 where name = ?",new Object[]{musicName});
             return true;
         }
         return false;
@@ -102,7 +102,7 @@ public class DBMuiscs  {
     public static boolean insertMusic(MusicModel m){
         if (db!= null && db.isOpen()){
             try {
-                db.execSQL("insert into music values(?,?,?,?,?,?,?,?)",new Object[]{m.getName(),m.getAlbum(),m.getSinger(),m.getPlayBgId(),m.getHeadBgId(),m.getResId(),m.getLyc(),m.getSrc()});
+                db.execSQL("insert into music values(?,?,?,?,?,?,?,?,?)",new Object[]{m.getName(),m.getAlbum(),m.getSinger(),m.getPlayBgId(),m.getHeadBgId(),m.getResId(),m.getLyc(),m.getSrc(),1});
             }catch (SQLiteException e){
                System.err.println(e.getMessage());
             }
@@ -110,5 +110,30 @@ public class DBMuiscs  {
             return true;
         }
         return false;
+    }
+
+    /**
+     *
+     * @return
+     */
+    // name ,album  ,singer ,playBg  ,headBg  ,resBg ,lyc
+    public static List<ClassfyMusic> queryClassfy(){
+       List<ClassfyMusic> list = new ArrayList<ClassfyMusic>();
+        if (db != null && db.isOpen()){
+            Cursor c = db.rawQuery("select singer,count(*) from music group by singer",null);
+            while (c.moveToNext()){
+                ClassfyMusic cm = new ClassfyMusic();
+                cm.setCount(c.getInt(1));
+                cm.setSinger(c.getString(0));
+                Cursor ic = db.rawQuery("select resBg,album from music where singer = ?",new String[]{c.getString(0)});
+                if (ic.moveToNext()){
+                    cm.setAlbum(ic.getString(1));
+                    cm.setResId(ic.getInt(0));
+                }
+                list.add(cm);
+            }
+            return list;
+        }
+        return list;
     }
 }

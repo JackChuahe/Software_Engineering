@@ -9,30 +9,31 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.durian.sixkids.durian.R;
+import com.durian.sixkids.durian.common.DownloadList;
+import com.durian.sixkids.durian.common.MusicModel;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by yu on 2016/5/4.
  */
 public class FdAdapter extends BaseAdapter{
-    private ArrayList<HashMap<String,Object>> list;
     private LayoutInflater mInflater;
 
-    public FdAdapter(Context context,ArrayList<HashMap<String,Object>>list){
+    public FdAdapter(Context context){
           mInflater=LayoutInflater.from(context);
-          this.list=list;
     }
     @Override
     public int getCount() {
-        return null==list?0:list.size();
+        return null== DownloadList.downloaded?0:DownloadList.downloaded.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return list.get(position);
+        return DownloadList.downloaded.get(position);
     }
 
     @Override
@@ -61,9 +62,9 @@ public class FdAdapter extends BaseAdapter{
 
         }
 
-        if(null!=list&&!list.isEmpty()){
-            holder.text1.setText(list.get(position).get("text1").toString());
-            holder.text2.setText(list.get(position).get("text2").toString());
+        if(null!=DownloadList.downloaded&&!DownloadList.downloaded.isEmpty()){
+            holder.text1.setText(DownloadList.downloaded.get(position).getName());
+            holder.text2.setText(DownloadList.downloaded.get(position).getSize()+"MB");
         }
 
         return convertView;
